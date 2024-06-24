@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Website</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      .wrapper::before {
+        top: 0;
+        width: 100%;
+        max-width: 100%;
+        min-width: 1200px;
+        height: 260px;
+        background: url(./img/banner.jpg) repeat center center;
+        position: absolute;
+        content: "";
+        display: block;
+        z-index: -1;
+      }
+
+      .wrapper::after {
+        bottom: 0;
+        width: 100%;
+        max-width: 100%;
+        min-width: 1200px;
+        height: 140px;
+        background-color: #2c2c2c;
+        position: absolute;
+        content: "";
+        display: block;
+        z-index: -1;
+      }
+
+      .container {
+        width: 1200px;
+        height: 100%;
+        margin: 0 auto;
+      }
+
+      header {
+        width: 100%;
+        height: 100%;
+        color: white;
+      }
+
+      header > nav {
+        width: 100%;
+        height: 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        vertical-align: text-bottom;
+      }
+
+      header > nav > h1 {
+        font-size: 18px;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+      }
+
+      header > nav > h1:hover {
+        font-size: 20px;
+        border-bottom: 1px solid white;
+      }
+
+      header > nav > ul {
+        display: flex;
+        list-style-type: none;
+      }
+
+      header > nav > ul > li {
+        margin-right: 20px;
+        font-size: 12px;
+      }
+
+      header > nav > ul > li > a {
+        color: white;
+        text-decoration: none;
+        box-sizing: border-box;
+        transition: font-size 0.3s ease-in-out;
+      }
+
+      header > nav > ul > li > a:hover {
+        border-bottom: 1px solid white;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      header > section {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      header > section > .logo {
+        width: 100px;
+        height: 100px;
+        box-sizing: border-box;
+        border: 3px solid white;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        overflow: hidden;
+        transition: all 1s ease-in-out;
+      }
+
+      header > section > .title {
+        font-size: 24px;
+        margin-bottom: 10px;
+        transition: font-size 0.3s ease-in-out;
+      }
+
+      main {
+        width: 100%;
+        margin-top: 30px;
+      }
+
+      main > section {
+        width: 100%;
+        padding: 20px 0;
+      }
+
+      main > section > h2 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      main > section > ul {
+        display: flex;
+        list-style-type: none;
+      }
+
+      main > section > ul > li {
+        width: 100%;
+        height: 150px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+        text-align: center;
+        margin-right: 20px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+
+      main > section > ul > li:hover {
+        box-shadow: 0 0 20px #ccc;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      main > section > ul > li:last-child {
+        margin-right: 0;
+      }
+
+      main > section > ul > li > img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        flex: 1;
+      }
+
+      main > section > ul > li > span {
+        line-height: 36px;
+        height: 36px;
+        overflow: hidden;
+        padding: 0 20px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      footer {
+        margin-top: 20px;
+        height: 140px;
+        color: white;
+      }
+
+      footer > .external-chain {
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      footer > .external-chain > button {
+        cursor: pointer;
+        margin-right: 20px;
+        padding: 5px 20px;
+        background-color: #2c2c2c;
+        color: white;
+        border: 1px solid white;
+        border-radius: 5px;
+      }
+
+      footer > .external-chain > button:hover {
+        background-color: white;
+        color: #2c2c2c;
+      }
+
+      footer > .copyright {
+        font-size: 12px;
+        text-align: center;
+        padding-top: 20px;
+      }
+    </style>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        const myWebsite = document.querySelector("#my-website");
+        myWebsite.addEventListener("click", function () {
+          window.location.reload();
+        });
+        const logo = document.querySelector(".logo");
+        logo.addEventListener("mouseover", function () {
+          logo.style.transform = "rotate(720deg)";
+        });
+        logo.addEventListener("mouseout", function () {
+          logo.style.transform = "rotate(0deg)";
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <header>
+          <nav>
+            <h1 id="my-website">My Website</h1>
+            <ul>
+              <!-- 这边可以加个子菜单 -->
+              <li><a href="#my-food-1">美食一</a></li>
+              <li><a href="#my-food-2">美食二</a></li>
+              <li><a href="#">关于</a></li>
+            </ul>
+          </nav>
+          <section>
+            <div class="logo">
+              <img src="./img/logo.png" width="100" height="100" alt="Hale" />
+            </div>
+            <div class="title">Hello, Food food</div>
+            <div class="description">精致的小厨师</div>
+          </section>
+        </header>
+        <main>
+          <section>
+            <h2 name="my-food-1">测试美食一</h2>
+            <ul>
+              <li>
+                <img src="./img/card1.jpg" alt="..." /><span title="Placeholder"
+                  >Placeholder</span
+                >
+              </li>
+              <li>
+                <img src="./img/card2.jpg" alt="..." /><span title="Placeholder"
+                  >Placeholder</span
+                >
+              </li>
+              <li>
+                <img src="./img/card3.jpg" alt="..." /><span title="Placeholder"
+                  >Placeholder</span
+                >
+              </li>
+              <li>
+                <img src="./img/card4.jpg" alt="..." /><span title="Placeholder"
+                  >Placeholder</span
+                >
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2 name="my-food-1">测试美食二</h2>
+            <ul>
+              <li>
+                <img src="./img/card5.jpg" alt="..." /><span
+                  title="Long Placeholder Long Placeholder"
+                  >Long Placeholder Long Placeholder</span
+                >
+              </li>
+              <li>
+                <img src="./img/card6.jpg" alt="..." /><span title="Placeholder"
+                  >Placeholder</span
+                >
+              </li>
+              <li>
+                <img src="./img/card7.jpg" alt="..." /><span title="Placeholder"
+                  >Placeholder</span
+                >
+              </li>
+              <li>
+                <img src="./img/card8.jpg" alt="..." /><span title="Placeholder"
+                  >Placeholder</span
+                >
+              </li>
+            </ul>
+          </section>
+        </main>
+        <footer>
+          <div class="external-chain">
+            <button>跳转 1</button>
+            <button>跳转 2</button>
+            <button>跳转 3</button>
+          </div>
+          <div class="copyright">Copyright © 2017-2024 aiyoudiao</div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
