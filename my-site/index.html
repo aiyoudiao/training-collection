@@ -134,12 +134,12 @@
       main > section > h2 {
         font-size: 18px;
         font-weight: bold;
-        margin-bottom: 10px;
       }
 
       main > section > ul {
         display: flex;
         list-style-type: none;
+        margin-top: 10px;
       }
 
       main > section > ul > li {
@@ -225,12 +225,24 @@
         myWebsite.addEventListener("click", function () {
           window.location.reload();
         });
+
         const logo = document.querySelector(".logo");
         logo.addEventListener("mouseover", function () {
           logo.style.transform = "rotate(720deg)";
         });
         logo.addEventListener("mouseout", function () {
           logo.style.transform = "rotate(0deg)";
+        });
+
+        // 滑动到指定位置
+        document.querySelectorAll("a[href^='#']").forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          });
         });
       });
     </script>
@@ -258,7 +270,7 @@
         </header>
         <main>
           <section>
-            <h2 name="my-food-1">测试美食一</h2>
+            <h2 id="my-food-1">测试美食一</h2>
             <ul>
               <li>
                 <img src="./img/card1.jpg" alt="..." /><span title="Placeholder"
@@ -283,7 +295,7 @@
             </ul>
           </section>
           <section>
-            <h2 name="my-food-1">测试美食二</h2>
+            <h2 id="my-food-2">测试美食二</h2>
             <ul>
               <li>
                 <img src="./img/card5.jpg" alt="..." /><span
