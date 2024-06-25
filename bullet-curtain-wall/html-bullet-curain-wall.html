@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML 版本弹幕墙</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 60px;
+      }
+
+      main {
+        box-sizing: border-box;
+        margin: 10px 20px 10px;
+        height: calc(100vh - 220px);
+        border: 4px solid #2c2c2c;
+        position: relative;
+        overflow: hidden;
+        background-color: #f0f0f0;
+        user-select: none;
+        border-radius: 5px;
+        box-shadow: 0 0 10px #2c2c2c;
+      }
+
+      main span[id^="msg@"] {
+        cursor: pointer;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 140px;
+        background-color: #2c2c2c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+      }
+
+      footer input[type="text"] {
+        width: 312px;
+        height: 30px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 0 10px;
+      }
+
+      footer .button-group {
+        margin-top: 10px;
+      }
+
+      footer input[type="button"] {
+        cursor: pointer;
+        width: 80px;
+        height: 30px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 0 10px;
+      }
+
+      footer input[type="button"]:hover {
+        background-color: #000;
+        color: #fff;
+      }
+    </style>
+    <script src="./createReadableColor.js"></script>
+    <script>
+      // 弹幕属性类
+      class BulletCurtainAttribute {
+        static bulletCurtainAttribute = null;
+        static getBulletCurtainAttribute() {
+          if (BulletCurtainAttribute.bulletCurtainAttribute) {
+            return BulletCurtainAttribute.bulletCurtainAttribute;
+          }
+
+          BulletCurtainAttribute.bulletCurtainAttribute =
+            new BulletCurtainAttribute();
+
+          return BulletCurtainAttribute.bulletCurtainAttribute;
+        }
+
+        constructor() {
+          // 弹幕颜色集合16进制
+          this.colors = Array(24)
+            .fill(0)
+            .map((_, i) => generateReadableColor("#f0f0f0"));
+          // 弹幕速度集合
+          this.speeds = Array(20)
+            .fill(0)
+            .map((_, i) => (i + 1) * 5);
+          // 弹幕字体集合
+          this.fonts = [
+            "微软雅黑",
+            "宋体",
+            "黑体",
+            "仿宋",
+            "隶书",
+            "幼圆",
+            "华文彩云",
+            "华文行楷",
+            "华文宋体",
+            "华文中宋",
+            "华文仿宋",
+            "华文琥珀",
+            "华文隶书",
+            "华文新魏",
+            "华文彦宋",
+            "华文琥珀",
+            "华文隶书",
+            "华文行楷",
+            "华文新魏",
+            "华文中宋",
+            "华文仿宋",
+            "华文楷体",
+            "华文宋体",
+          ];
+          // 弹幕字体大小集合
+          this.fontSizes = Array(24)
+            .fill(0)
+            .map((_, i) => `${i + 12}px`);
+          // 弹幕字体粗细集合
+          this.fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+        }
+
+        getRandomColor() {
+          const colorIndex = Math.floor(Math.random() * this.colors.length);
+          return this.colors[colorIndex];
+        }
+
+        getRandomSpeed() {
+          const speedIndex = Math.floor(Math.random() * this.speeds.length);
+          return this.speeds[speedIndex];
+        }
+
+        getRandomFont() {
+          const fontIndex = Math.floor(Math.random() * this.fonts.length);
+          return this.fonts[fontIndex];
+        }
+
+        getRandomFontSize() {
+          const fontSizeIndex = Math.floor(
+            Math.random() * this.fontSizes.length
+          );
+          return this.fontSizes[fontSizeIndex];
+        }
+
+        getRandomFontWeight() {
+          const fontWeightIndex = Math.floor(
+            Math.random() * this.fontWeights.length
+          );
+          return this.fontWeights[fontWeightIndex];
+        }
+      }
+
+      window.onload = function () {
+        let i = 0;
+        let launched = false;
+        const input = document.getElementById("input");
+        const btn = document.getElementById("btn");
+        const main = document.querySelector("main");
+        const createBulletId = (key) => `msg@${i}`;
+        const bulletCurtainAttributes =
+          BulletCurtainAttribute.getBulletCurtainAttribute();
+
+        // 清空弹幕
+        const clearBulletCurtainWall = () => {
+          main.innerHTML = "";
+          launched = false;
+        };
+
+        // 暂停单个弹幕
+        const pausedSingleBullet = (ele) => {
+          ele.stop();
+        };
+
+        // 暂停弹幕
+        const pauseBulletCurtainWall = () => {
+          if (!launched) return;
+          main.querySelectorAll("marquee").forEach((marquee) => {
+            pausedSingleBullet(marquee);
+          });
+
+          launched = false;
+        };
+
+        // 恢复单个弹幕
+        const resumeSingleBullet = (ele) => {
+          ele.start();
+        };
+
+        // 恢复暂停的弹幕
+        const resumeBulletCurtainWall = () => {
+          if (launched) return;
+
+          main.querySelectorAll("marquee").forEach((marquee) => {
+            resumeSingleBullet(marquee);
+          });
+
+          launched = true;
+        };
+
+        // 创建弹幕
+        const createBulletCurtain = (msg, i) => {
+          // @NOTE https://developer.mozilla.org/en-US/docs/Web/HTML/Element/marquee
+          const marquee = document.createElement("marquee");
+          marquee.style.position = "absolute";
+          marquee.loop = 1;
+          marquee.behavior = "scroll";
+          marquee.direction = "left";
+          marquee.scrollAmount = bulletCurtainAttributes.getRandomSpeed();
+          let top = Math.random() * main.clientHeight;
+          top = top + 36 > main.clientHeight ? top - 36 : top;
+          marquee.style.marginTop = top + "px";
+          marquee.style.width = main.clientWidth + "px";
+          marquee.style.height = main.clientHeight + "px";
+
+          const span = document.createElement("span");
+          span.id = createBulletId(i);
+          span.innerText = msg;
+          span.style.color = bulletCurtainAttributes.getRandomColor();
+          span.style.fontWeight = bulletCurtainAttributes.getRandomFontWeight();
+          span.style.fontFamily = bulletCurtainAttributes.getRandomFont();
+          const fontSize = bulletCurtainAttributes.getRandomFontSize();
+          span.style.fontSize = fontSize;
+
+          marquee.appendChild(span);
+          main.appendChild(marquee);
+
+          if (launched) {
+            marquee.start();
+          } else {
+            marquee.stop();
+          }
+
+          resumeBulletCurtainWall();
+          input.value = "";
+        };
+
+        // 触发弹幕
+        const triggerBulletCurtain = (ele) => {
+          pauseBulletCurtainWall();
+          alert(`你点击了弹幕${ele.id}：${ele.innerText}`);
+          resumeBulletCurtainWall();
+        };
+
+        // 移除指定位置的弹幕
+        const removeBulletCurtain = () => {
+          main.querySelectorAll("marquee > span").forEach((span) => {
+            const client = span.getBoundingClientRect();
+            const { x } = client;
+            if (x < 0) {
+              span.parentElement.remove();
+            }
+          });
+        };
+
+        window.setInterval(() => {
+          removeBulletCurtain();
+        }, 10000);
+        main.addEventListener("click", function (e) {
+          const { target } = e;
+          if (
+            target.tagName === "SPAN" &&
+            target.id &&
+            target.id.indexOf("msg@") > -1
+          ) {
+            triggerBulletCurtain(target);
+          }
+        });
+        btn.addEventListener("click", function () {
+          const text = input.value;
+          i++;
+          debugger;
+          createBulletCurtain(text, i);
+        });
+        clear.addEventListener("click", function () {
+          clearBulletCurtainWall();
+        });
+        pause.addEventListener("click", function () {
+          pauseBulletCurtainWall();
+        });
+        resume.addEventListener("click", function () {
+          resumeBulletCurtainWall();
+        });
+        input.addEventListener("keydown", function (e) {
+          if (e.keyCode === 13) {
+            btn.click();
+          }
+        });
+
+        main.addEventListener("mouseover", function (e) {
+          const { target } = e;
+          if (
+            target.tagName === "SPAN" &&
+            target.id &&
+            target.id.indexOf("msg@") > -1
+          ) {
+            pausedSingleBullet(target.parentElement);
+          }
+        });
+
+        main.addEventListener("mouseout", function (e) {
+          const { target } = e;
+          if (
+            target.tagName === "SPAN" &&
+            target.id &&
+            target.id.indexOf("msg@") > -1
+          ) {
+            resumeSingleBullet(target.parentElement);
+          }
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>弹幕墙</h1>
+    </header>
+    <main class="screen" onselectstart="return false;"></main>
+    <footer onselectstart="return false;">
+      <input type="text" id="input" placeholder="请输入弹幕内容" />
+      <div class="button-group" onselectstart="return false;">
+        <input type="button" id="btn" value="发射弹幕" />
+        <input type="button" id="clear" value="清空弹幕" />
+        <input
+          type="button"
+          id="pause"
+          value="暂停弹幕"
+          style="display: none"
+        />
+        <input
+          type="button"
+          id="resume"
+          value="恢复弹幕"
+          style="display: none"
+        />
+      </div>
+    </footer>
+  </body>
+</html>
