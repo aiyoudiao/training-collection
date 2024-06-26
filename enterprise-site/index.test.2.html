@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <script src="./modle.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          fontFamily: {
+            myum: "'Microsoft YaHei UI-MONOSPACE', 'Microsoft YaHei UI', 'sans-serif'",
+          },
+          extend: {
+            colors: {},
+          },
+        },
+      };
+    </script>
+    <script>
+      class I18n {
+        static model = getModel();
+        static i18n = null;
+        static lang = null;
+
+        constructor() {
+          if (!I18n.lang) {
+            return;
+          }
+
+          I18n.i18n = I18n.model[I18n.lang];
+        }
+
+        static getI18n(lang) {
+          I18n.lang = lang;
+          if (I18n.i18n === null) {
+            I18n.i18n = new I18n();
+          }
+          return I18n.i18n;
+        }
+
+        t(key) {
+            debugger
+          if (!I18n.i18n) {
+            return "";
+          }
+          if (key.includes(".")) {
+            return key.split(".").reduce((acc, cur) => {
+              return acc[cur];
+            }, I18n.i18n);
+          }
+
+          return I18n.i18n[key];
+        }
+
+        static useI18n(lang) {
+          const i18n = I18n.getI18n(lang);
+          setTimeout(() => {
+            const text = document.body.innerHTML.replace(
+            /{{#t\('(.*?)'\)}}/g,
+            i18n.t(`header.honePage.nav`)
+          );
+          console.log(text);
+          }, 200)
+
+        }
+      }
+
+      window.onload = () => {
+        I18n.useI18n("zh");
+      };
+    </script>
+  </head>
+  <body>
+    <header class="relative">
+      <section class="container mx-auto flex flex-row justify-between">
+        <div>
+          <img src="./source/img/logo.svg" />
+          <span class="text-white font-semibold">企业站</span>
+        </div>
+        <nav>
+          <ul class="list-none">
+            <li>
+              <a class="no-underline text-white" href=""
+                >{{#t('header.honePage.nav')}}</a
+              >
+            </li>
+            <li>
+              <a class="no-underline text-white" href=""
+                >{{#t('header.newListPage.nav')}}</a
+              >
+            </li>
+            <li>
+              <a class="no-underline text-white" href=""
+                >{{#t('header.aboutUs.nav')}}</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </section>
+      <section class="absolute top-0 left-0">
+        <div>
+          <div class="absolute top-0 left-0">
+            <div class="img"></div>
+            <div class="title">{{#t('header.honePage.title')}}</div>
+            <div class="description">{{#t('header.honePage.description')}}</div>
+          </div>
+          <div class="absolute top-0 left-0">
+            <div class="img"></div>
+            <div class="title">{{#t('header.newListPage.title')}}</div>
+            <div class="description">
+              {{#t('header.newListPage.description')}}
+            </div>
+          </div>
+          <div class="absolute top-0 left-0">
+            <div class="img"></div>
+            <div class="title">{{#t('header.aboutUs.title')}}</div>
+            <div class="description">{{#t('header.aboutUs.description')}}</div>
+          </div>
+        </div>
+        <div class="operator">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </section>
+    </header>
+    <main>
+      <section></section>
+      <section></section>
+      <section></section>
+      <section></section>
+    </main>
+    <footer></footer>
+  </body>
+</html>

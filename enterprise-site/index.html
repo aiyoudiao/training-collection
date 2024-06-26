@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          fontFamily: {
+            myum: "'Microsoft YaHei UI-MONOSPACE', 'Microsoft YaHei UI', 'sans-serif'",
+          },
+          extend: { 
+            colors: {},
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="h-screen">
+    <header class="relative">
+      <section
+        class="container mx-auto flex flex-row justify-between py-9 items-center"
+      >
+        <div class="flex space-x-1 items-center justify-items-center">
+          <img src="./source/img/logo.svg" />
+          <span class="text-white font-semibold">企业站</span>
+        </div>
+        <nav class="hidden md:block">
+          <ul
+            class="list-none md:flex space-x-11 items-center justify-items-center"
+          >
+            <li>
+              <a class="no-underline text-white" href="">首页</a>
+            </li>
+            <li>
+              <a class="no-underline text-white" href="">新闻列表页</a>
+            </li>
+            <li>
+              <a class="no-underline text-white" href="">关于我们</a>
+            </li>
+          </ul>
+        </nav>
+        <nav class="md:hidden">
+          <button class="text-gray-700 focus:outline-none">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </nav>
+      </section>
+      <section class="absolute top-0 left-0 right-0 -z-10">
+        <div class="relative">
+          <div class="absolute top-0 left-0 right-0">
+            <div>
+              <img
+                src="./source/img/home@1x.png"
+                alt="..."
+                srcset="./source/img/home@1.5x.png 1.5x, ./source/img/home@2x.png 2.x"
+              />
+            </div>
+            <div class="absolute top-0 left-0 right-0 bottom-0">
+              <div class="h-full w-full flex flex-col items-center justify-center text-white">
+                <div class="text-7xl font-semibold">开启互联网+ 从我们开始</div>
+                <div class="text-4xl font-normal mt-7">
+                  域名主机，网站建设，云服务器，企业邮箱一站式解决
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="absolute top-0 left-0">
+            <div class="img"></div>
+            <div class="title">新闻中心</div>
+            <div class="description">
+              几乎所有的伟大成就，都是团队集体协作追求远大目标的结果。这些团队的领导者挑选了团队的成员，并激励他们追求自己不敢想象的成就。
+            </div>
+          </div>
+          <div class="absolute top-0 left-0">
+            <div class="img"></div>
+            <div class="title">新闻中心</div>
+            <div class="description">
+              企业构建互联网信息技术服务平台，领先技术变革，提升产业效率，致力于使能软件企业引领发展，服务制造企业转型升级，为政企客户提供“多快好省”的信息技术服务。
+            </div>
+          </div>
+        </div>
+        <div class="operator">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </section>
+    </header>
+    <main>
+      <section></section>
+      <section></section>
+      <section></section>
+      <section></section>
+    </main>
+    <footer></footer>
+  </body>
+</html>

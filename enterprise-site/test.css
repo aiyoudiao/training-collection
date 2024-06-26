@@ -1,0 +1,7 @@
+font {
+  font-family: Microsoft YaHei UI-MONOSPACE;
+  color: red;
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1px rgba(217, 217, 217, 1);
+  font-size: 80px;
+}
