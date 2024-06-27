@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新闻列表页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./styles/news.css" />
+  </head>
+  <body>
+    <header class="header header--transparent" role="banner">
+      <div
+        class="z-50 relative h-16 text-white bg-[#252429] mx-auto flex items-center justify-between p-6 lg:px-8"
+        aria-label="Global"
+      >
+        <div class="header__logo">
+          <img src="./assets/logo.svg" alt="Logo" />
+          <h1 class="header__title">企业站</h1>
+        </div>
+        <div class="flex-auto"></div>
+        <button class="header__menu sm:hidden" aria-label="菜单">
+          <img src="./assets/menu.svg" alt="菜单" />
+        </button>
+        <nav class="nav nav--horizontal sm:block" role="navigation">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a
+                class="nav__item-text"
+                href="index.html"
+                aria-current="page"
+                >首页</a
+              >
+            </li>
+            <li class="nav__item nav__item--active">
+              <a class="nav__item-text" href="news.html">新闻列表页</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__item-text" href="about-us.html">关于我们</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div
+      class="drawer"
+      role="dialog"
+      aria-labelledby="drawer-title"
+      aria-hidden="true"
+    >
+      <div class="drawer__container">
+        <button class="drawer__closer" aria-label="关闭">
+          <img src="./assets/close.svg" alt="关闭按钮" />
+        </button>
+        <nav class="drawer__content nav nav--vertical">
+          <ul>
+            <li class="nav__item">
+              <a class="nav__item-text" href="index.html">首页</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__item-text" href="news.html">新闻列表页</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__item-text" href="about-us.html">关于我们</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <main class="main">
+      <section class="news news--light">
+        <div class="pt-4 md:pt-14 pb-5 md:pb-10 relative">
+          <img
+            class="w-3/4 md:w-[58.9%] ml-[12.5%] md:ml-[27.76%]"
+            src="./assets/news/newslistpage.png"
+          />
+          <div class="text-center relative -mt-4 md:-mt-10">
+            <div
+              class="w-full text-black text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-normal slide-in-right"
+            >
+              新闻列表页
+            </div>
+            <div
+              class="w-16 md:w-32 h-1.5 mx-auto mt-4 md:mt-8 bg-[#FF350D]"
+            ></div>
+          </div>
+        </div>
+
+        <ul class="news__list sm:-mx-4">
+          <div class="news__empty">暂无数据</div>
+        </ul>
+
+        <div class="pagination mb-14">
+          <div class="border inline-block text-sm pl-2 rounded">
+            <select class="hidden sm:block pagination__sizer">
+              <option value="8">8条/页</option>
+              <option value="12">12条/页</option>
+              <option value="24">24条/页</option>
+              <option value="40">40条/页</option>
+            </select>
+          </div>
+          <ul class="pagination__item-list ml-2">
+            <li
+              class="pagination__item pagination__prev pagination__item--disabled"
+            >
+              &lt;
+            </li>
+            <li class="pagination__item">1</li>
+            <li class="pagination__item pagination__prev-jumper">...</li>
+            <li class="pagination__item">4</li>
+            <li class="pagination__item pagination__item--active">5</li>
+            <li class="pagination__item">6</li>
+            <li class="pagination__item pagination__next-jumper">...</li>
+            <li class="pagination__item">10</li>
+            <li class="pagination__item pagination__next">&gt;</li>
+          </ul>
+          <div class="hidden sm:block pagination__jumper">
+            前往
+            <div class="border inline-block text-sm pl-2 rounded mx-2">
+              <input
+                class="pagination__jumper-input border-none w-10 h-8 rounded  text-center"
+                type="number"
+                min="1"
+                value="2"
+              />
+            </div>
+            页
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      class="w-full relative text-white text-[1rem] bg-[#FF350D] py-12 px-8 sm:min-w-[1200px]"
+    >
+      <address
+        class="flex flex-col md:flex-row md:flex-wrap items-start md:items-center justify-center leading-loose not-italic"
+      >
+        <div class="grid grid-cols-3">
+          <div class="text-center">
+            地址：中国山东省青岛市市南区某某中路20号
+          </div>
+          <div class="text-center">邮箱：1370XXX171@qq.com</div>
+          <div class="text-center">电话：0591-88888888</div>
+        </div>
+      </address>
+      <div class="relative flex items-center md:justify-center mx-auto mt-12">
+        <img class="w-8 h-8 mr-3" src="./assets/qrcode.png" />
+        <div class="ml-2">
+          Copyright ©2009 - 2022 Cld , All Rights Reserved 某某网络科技有限公司
+          版权所有 陕ICP备xxxxxxx号
+        </div>
+      </div>
+    </footer>
+    <script src="./scripts/news.js" type="module"></script>
+  </body>
+</html>

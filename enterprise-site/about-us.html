@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>关于我们</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./styles/about-us.css" />
+  </head>
+  <body>
+    <header class="header header--transparent" role="banner">
+      <div
+      class="z-50 relative h-16 text-white bg-[#252429] mx-auto flex items-center justify-between p-6 lg:px-8"
+      aria-label="Global">
+        <div class="header__logo">
+          <img src="./assets/logo.svg" alt="Logo" />
+          <h1 class="header__title">企业站</h1>
+        </div>
+        <div class="flex-auto"></div>
+        <button class="header__menu sm:hidden" aria-label="菜单">
+          <img src="./assets/menu.svg" alt="菜单" />
+        </button>
+        <nav class="nav nav--horizontal sm:block" role="navigation">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a class="nav__item-text"
+                href="./index.html"
+                aria-current="page"
+                >首页</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__item-text" href="./news.html">新闻列表页</a>
+            </li>
+            <li class="nav__item nav__item--active">
+              <a class="nav__item-text" href="./about-us.html">关于我们</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div
+      class="drawer"
+      role="dialog"
+      aria-labelledby="drawer-title"
+      aria-hidden="true"
+    >
+      <div class="drawer__container">
+        <button class="drawer__closer" aria-label="关闭">
+          <img src="./assets/close.svg" alt="关闭按钮" />
+        </button>
+        <nav class="drawer__content nav nav--vertical">
+          <ul>
+            <li class="nav__item">
+              <a class="nav__item-text" href="index.html">首页</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__item-text" href="news.html">新闻列表页</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__item-text" href="about-us.html">关于我们</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <main class="flex-auto">
+      <div class="pt-48 md:pt-32 pb-12 relative">
+        <img class="w-[80%] md:w-[46.67%] ml-[10%] md:ml-[27.76%]" src="./assets/aboutus/aboutus.png">
+        <div class="text-center relative -mt-16">
+          <div class="w-full text-black text-xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-normal">关于我们</div>
+          <div class="w-32 h-1.5 mx-auto mt-8 bg-[#FF350D] "></div>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row md:items-stretch md:mb-28">
+        <div class="flex-1 md:px-9">
+            <iframe
+                src="./map.html"
+                frameborder="0"
+                class="w-full h-80 md:h-full"
+              >
+            </iframe>
+        </div>
+        <div class="flex-1 px-9 md:pr-9 md:pl-0 my-12 md:my-0">
+          <article class="">
+            <h3 class="text-black text-2xl font-semibold leading-7">一家专注系统高端定制开发的公司</h3>
+            <div class="mt-6 text-neutral-700 text-sm font-normal leading-7">
+              互联网指的是是网络与网络之间所串连成的庞大网络，这些网络以一组通用的协议相连，形成逻辑上的单一巨大国际网络。<br>互联网始于1969年美国的阿帕网。这种将计算机网络互相联接在一起的方法可称作“网络互联”，在这基础上发展出覆盖全世界的全球性互联网络称互联网，即是互相连接一起的网络结构。<br>我们出色的专业开发团队扎实的技术支持，优质高效的服务意识和丰厚的资源优势，提供专业的网站建设，微信小程序，APP开发，等技术服务。成果，专注于为客户提供专业有效的互联网系统解决方案。
+            </div>
+            <div class="mt-6 flex items-center">
+              <img class="mr-3" src="./assets/aboutus/location.png" alt="">
+              <div class="text-neutral-700 text-sm font-normal">
+                地址：中国山东省青岛市市南区某某中路20号
+              </div>
+            </div>
+            <div class="mt-6 flex items-center">
+              <img class="mr-3" src="./assets/aboutus/email.png" alt="">
+              <div class="text-neutral-700 text-sm font-normal">
+                邮箱：1370XXX171@qq.com
+              </div>
+            </div>
+            <div class="mt-6 flex items-center">
+              <img class="mr-3" src="./assets/aboutus/phone.png" alt="">
+              <div class="text-neutral-700 text-sm font-normal">
+                电话：0591-88888888
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      class="w-full relative text-white text-[1rem] bg-[#FF350D] py-12 px-8"
+    >
+      <address
+        class="flex flex-col md:flex-row md:flex-wrap items-start md:items-center justify-center leading-loose not-italic"
+      >
+        <div class="grid grid-cols-3">
+          <div class="text-center">地址：中国山东省青岛市市南区某某中路20号</div>
+          <div class="text-center">邮箱：1370XXX171@qq.com</div>
+          <div class="text-center">电话：0591-88888888</div>
+        </div>
+      </address>
+      <div class="relative flex items-center md:justify-center mx-auto mt-12">
+        <img class="w-8 h-8 mr-3" src="./assets/qrcode.png" />
+        <div class="ml-2">
+          Copyright ©2009 - 2022 Cld , All Rights Reserved 某某网络科技有限公司
+          版权所有 陕ICP备xxxxxxx号
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+.footer {
+  @apply text-white text-xs bg-[#ff350d];
+}
+.footer__address {
+  @apply leading-loose not-italic;
+}
+.footer .fixed-container {
+  @apply pt-4 p-6;
+}
+.copyright {
+  @apply flex items-center mt-4;
+}
+.copyright__qrcode {
+  @apply w-8 h-8;
+}
+.copyright__content {
+  @apply ml-2;
+}

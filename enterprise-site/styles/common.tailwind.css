@@ -1,0 +1,32 @@
+@import url("./animation.css");
+html,
+body {
+  @apply w-full h-full;
+}
+body {
+  @apply flex flex-col overflow-y-auto;
+}
+.header {
+  @apply flex-none;
+}
+.container {
+  @apply w-[1200px] mx-auto my-0;
+}
+.main {
+  @apply w-full flex-[auto] mx-auto my-0;
+}
+.footer {
+  @apply flex-none;
+}
+.fixed-container {
+  @apply w-full h-full mx-auto my-0;
+}
+.page-title {
+  @apply text-2xl leading-8 text-center mx-0 my-3;
+}
+.image--loading {
+  @apply blur-[20px];
+}
+.image img {
+  @apply w-full h-full;
+}
