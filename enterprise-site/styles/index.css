@@ -1,0 +1,215 @@
+@import url("./common.css");
+@import url("./header.css");
+@import url("./news.css");
+@import url("./footer.css");
+
+/* .carousel {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+} */
+
+.carousel {
+  @apply relative flex w-full h-[800px] overflow-hidden;
+}
+
+.carousel__indicator {
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(-50%);
+}
+
+.carousel__indicator-item {
+  padding: 8px;
+  cursor: pointer;
+  transform: scale(1);
+  transition: all linear 0.2s;
+}
+
+.carousel__indicator-item:hover {
+  transform: scale(1.5);
+}
+
+.progress__bar,
+.progress__inner-bar {
+  fill: none;
+  stroke-width: 8;
+  stroke-dasharray: 251;
+  stroke-dashoffset: 251;
+}
+
+.progress {
+  width: 12px;
+  height: 12px;
+}
+
+.carousel__indicator-item--active {
+  transform: scale(1.5);
+}
+
+.progress__inner-bar {
+  stroke: #fff;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transform-box: fill-box;
+  stroke-linecap: round;
+}
+
+.progress__bar {
+  stroke: rgba(177, 177, 177, 0.5);
+  stroke-dashoffset: 0;
+}
+
+.carousel__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel__item {
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel__content-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel__content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  padding: 0 10% 10%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+}
+
+.carousel__image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.carousel__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel__title {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.carousel__description {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.indicator {
+  display: flex;
+  flex-direction: column;
+}
+
+article p {
+  color: #8b8b8b;
+}
+
+article p + p {
+  margin-top: 24px;
+}
+
+.culture {
+  position: relative;
+  background-image: url("../assets/banner4.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.culture::before {
+  content: " ";
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.member {
+  position: relative;
+}
+
+.member__picture {
+  position: relative;
+  width: 100%;
+  padding-top: 140.6%;
+}
+
+.member__picture img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member__detail {
+  position: absolute;
+  left: 0;
+  bottom: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  color: white;
+  line-height: 1.7;
+}
+
+.member__name {
+  font-size: 30px;
+}
+
+.member__description {
+  font-size: 14px;
+}
+
+.more {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.more::before {
+  content: " ";
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  background-image: url("../assets/arrow-right.svg");
+  background-position: center;
+  background-size: contain;
+}

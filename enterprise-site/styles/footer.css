@@ -1,0 +1,30 @@
+.footer {
+  color: #fff;
+  font-size: 12px;
+  background-color: #ff350d;
+}
+
+.footer__address {
+  line-height: 2;
+  font-style: normal;
+}
+
+.footer .fixed-container {
+  padding: 24px;
+  padding-top: 16px;
+}
+
+.copyright {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.copyright__qrcode {
+  width: 32px;
+  height: 32px;
+}
+
+.copyright__content {
+  margin-left: 8px;
+}

@@ -1,0 +1,64 @@
+.header {
+  @apply z-[999] relative h-16 text-white bg-[#252429];
+}
+.header--transparent {
+  @apply bg-transparent;
+}
+.header .fixed-container {
+  @apply flex items-center px-4 py-0;
+}
+.header__logo {
+  @apply flex items-center;
+}
+.header__logo img {
+  @apply w-6 h-6;
+}
+.header__title {
+  @apply text-sm ml-2;
+}
+.header__menu img {
+  @apply w-5 h-5;
+}
+.drawer {
+  @apply hidden z-[9999] fixed bg-[rgba(0,0,0,0.5)] inset-0;
+}
+.drawer--active {
+  @apply block;
+}
+.drawer__container {
+  @apply absolute w-[300px] h-full max-w-full overflow-y-auto bg-[#252429] right-0 top-0;
+}
+.drawer__closer {
+  @apply absolute p-2 right-2 top-3.5;
+}
+.drawer__closer img {
+  @apply w-5 h-5;
+}
+.drawer__content {
+  @apply text-base text-white;
+}
+.nav--horizontal {
+  @apply hidden;
+}
+.nav--horizontal .nav__list {
+  @apply flex items-center;
+}
+.nav--horizontal .nav__item {
+  @apply relative text-sm p-2 after:absolute after:content-["_"] after:w-6 after:transition-all after:duration-[ease-in-out] after:delay-[0.3s] after:-ml-3 after:border-b-2 after:border-b-[#ff350d] after:border-solid after:scale-0 after:left-2/4 after:bottom-0 text-sm;
+}
+.nav--horizontal .nav__item.nav__item--active::after,
+.nav--horizontal .nav__item:hover::after {
+  @apply scale-100;
+}
+.nav--horizontal .nav__item + .nav__item {
+  @apply ml-[50px];
+}
+.nav--vertical .nav__item {
+  @apply px-5 py-0 active:bg-[rgba(0,0,0,0.15)];
+}
+.nav--vertical .nav__item-text {
+  @apply block px-0 py-8;
+}
+.nav--vertical .nav__item + .nav__item .nav__item-text {
+  @apply border-t-[#333] border-t border-solid;
+}

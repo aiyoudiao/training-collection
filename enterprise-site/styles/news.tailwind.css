@@ -1,0 +1,34 @@
+@import url("./common.css");
+@import url("./header.css");
+@import url("./footer.css");
+@import url("./news-common.css");
+.pagination {
+  @apply flex items-center justify-center text-[#8b8b8b] mx-0 my-4;
+}
+.pagination__sizer {
+  @apply h-8 border rounded text-sm mr-4 px-2 py-0 border-solid;
+}
+.pagination__sizer:focus {
+  outline: none;
+}
+.pagination__item-list {
+  @apply flex items-center;
+}
+.pagination__item {
+  @apply relative flex justify-center items-center w-8 h-8 rounded text-sm cursor-pointer hover:bg-[rgba(255,53,13,0.1)];
+}
+.pagination__item a {
+  @apply absolute inset-0;
+}
+.pagination__item.pagination__item--active {
+  @apply text-[#ff350d];
+}
+.pagination__jumper {
+  @apply flex items-center text-sm ml-4;
+}
+.pagination__jumper-input {
+  @apply w-[50px] h-8 border rounded text-center mx-2 my-0 px-2 py-0 border-solid;
+}
+.pagination__jumper-input:focus {
+  outline: none;
+}

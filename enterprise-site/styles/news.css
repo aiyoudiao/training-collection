@@ -1,0 +1,82 @@
+@import url("./common.css");
+@import url("./header.css");
+@import url("./footer.css");
+@import url("./news-common.css");
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+  color: #8b8b8b;
+}
+
+.pagination__sizer {
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  padding: 0 0px;
+  margin-right: 16px;
+  font-size: 14px;
+}
+
+.pagination__sizer:focus {
+  outline: none;
+}
+
+.pagination__item-list {
+  display: flex;
+  align-items: center;
+}
+
+.pagination__item {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #8b8b8b;
+}
+
+.pagination__item a {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.pagination__item.pagination__item--active {
+  color: #ff350d;
+}
+
+.pagination__item:hover {
+  color: #ff350d;
+}
+
+.pagination__jumper {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  font-size: 14px;
+}
+
+.pagination__jumper-input {
+  padding: 0 8px;
+  margin: 0 8px;
+  text-align: center;
+}
+
+.pagination__jumper-input:focus {
+  outline: none;
+}
+
+.pagination__item--disabled.pagination__item:hover {
+  cursor: not-allowed;
+  color: rgba(0, 0, 0 0.25, alpha);
+  background-color: rgba(0, 0, 0, 0.05);
+}

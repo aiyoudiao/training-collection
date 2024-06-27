@@ -1,0 +1,92 @@
+@import url("./common.css");
+@import url("./header.css");
+@import url("./news.css");
+@import url("./footer.css");
+.carousel {
+  @apply relative flex w-full h-[800px] overflow-hidden;
+}
+.carousel__indicator {
+  @apply z-10 absolute flex flex-col items-center -translate-y-2/4 left-4 top-2/4;
+}
+.carousel__indicator-item {
+  @apply cursor-pointer transition-all duration-[linear] delay-[0.2s] p-2 scale-100 hover:scale-150;
+}
+.progress__bar,
+.progress__inner-bar {
+  @apply fill-none stroke-[8];
+  stroke-dasharray: 251;
+  stroke-dashoffset: 251;
+}
+.progress {
+  @apply w-3 h-3;
+}
+.carousel__indicator-item--active {
+  @apply scale-150;
+}
+.progress__inner-bar {
+  @apply stroke-white -rotate-90 origin-center;
+  transform-box: fill-box;
+  stroke-linecap: round;
+}
+.progress__bar {
+  @apply stroke-[rgba(177,177,177,0.5)];
+  stroke-dashoffset: 0;
+}
+.carousel__container {
+  @apply relative w-full h-full;
+}
+.carousel__item {
+  @apply z-0 absolute w-full h-full left-0 top-0;
+}
+.carousel__content-wrapper {
+  @apply relative w-full h-full;
+}
+.carousel__content {
+  @apply relative w-full h-full flex flex-col items-center bg-center bg-no-repeat bg-cover text-white pt-0 pb-[10%] px-[10%];
+  justify-content: end;
+}
+.carousel__image {
+  @apply absolute inset-0;
+}
+.carousel__image img {
+  @apply w-full h-full object-cover;
+}
+.carousel__title {
+  @apply font-[bold] text-2xl leading-8;
+}
+.carousel__description {
+  @apply text-xs mt-2;
+}
+.indicator {
+  @apply flex flex-col;
+}
+article p {
+  @apply text-[#8b8b8b];
+}
+article p + p {
+  @apply mt-6;
+}
+.culture {
+  @apply relative bg-[url('../assets/banner4.jpg')] bg-cover bg-fixed before:content-['_'] before:z-[1] before:absolute before:bg-[rgba(0,0,0,0.7)] before:inset-0;
+}
+.member {
+  @apply relative;
+}
+.member__picture {
+  @apply relative w-full pt-[140.6%];
+}
+.member__picture img {
+  @apply absolute w-full h-full object-cover left-0 top-0;
+}
+.member__detail {
+  @apply absolute flex flex-col items-center w-full text-[white] leading-[1.7] left-0 bottom-[15%];
+}
+.member__name {
+  @apply text-3xl;
+}
+.member__description {
+  @apply text-sm;
+}
+.more {
+  @apply flex items-center cursor-pointer before:content-['_'] before:w-4 before:h-4 before:bg-[url('../../assets/arrow-right.svg')] before:bg-center before:bg-contain before:mr-1;
+}

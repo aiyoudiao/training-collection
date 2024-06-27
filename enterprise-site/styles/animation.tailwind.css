@@ -1,0 +1,47 @@
+.slidein-left {
+  @apply animate-[0.5s_ease-in-out];
+  animation-name: slidein-left;
+}
+.slidein-right {
+  @apply animate-[0.5s_ease-in-out];
+  animation-name: slidein-right;
+}
+.fadein {
+  @apply animate-[0.5s_ease-in-out_fedein];
+}
+.fadeout {
+  @apply animate-[fadein_0.5s_ease-in-out_reverse];
+}
+.hover-scale {
+  @apply overflow-hidden;
+}
+.hover-scale img {
+  @apply transition-all duration-[ease-in-out] delay-[0.5s];
+}
+.hover-scale:hover img {
+  @apply scale-110;
+}
+@keyframes slidein-left {
+  from {
+    @apply translate-x-[-20%];
+  }
+  to {
+    @apply translate-x-0;
+  }
+}
+@keyframes slidein-right {
+  from {
+    @apply translate-x-[20%];
+  }
+  to {
+    @apply translate-x-0;
+  }
+}
+@keyframes fedein {
+  from {
+    @apply opacity-0;
+  }
+  to {
+    @apply opacity-[1s];
+  }
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新闻详情页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./styles/news-detail.css" />
+  </head>
+  <body>
+    <header class="header header--transparent" role="banner">
+      <div
+        class="z-50 relative h-16 text-white bg-[#252429] mx-auto flex items-center justify-between p-6 lg:px-8"
+        aria-label="Global"
+      >
+        <div class="header__logo">
+          <img src="./assets/logo.svg" alt="Logo" />
+          <h1 class="header__title">企业站</h1>
+        </div>
+        <div class="flex-auto"></div>
+        <button class="header__menu sm:hidden" aria-label="菜单">
+          <img src="./assets/menu.svg" alt="菜单" />
+        </button>
+        <nav class="nav nav--horizontal sm:block" role="navigation">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a
+                class="nav__item-text"
+                href="index.html"
+                aria-current="page"
+                >首页</a
+              >
+            </li>
+            <li class="nav__item nav__item--active">
+              <a class="nav__item-text" href="news.html">新闻列表页</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__item-text" href="about-us.html">关于我们</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div
+      class="drawer"
+      role="dialog"
+      aria-labelledby="drawer-title"
+      aria-hidden="true"
+    >
+      <div class="drawer__container">
+        <button class="drawer__closer" aria-label="关闭">
+          <img src="./assets/close.svg" alt="关闭按钮" />
+        </button>
+        <nav class="drawer__content nav nav--vertical">
+          <ul>
+            <li class="nav__item">
+              <a class="nav__item-text" href="index.html">首页</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__item-text" href="news.html">新闻列表页</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__item-text" href="about-us.html">关于我们</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <main class="main">
+      <div class="pt-4 md:pt-14 pb-5 md:pb-10 relative">
+        <img
+          class="w-3/4 md:w-[58.9%] ml-[12.5%] md:ml-[27.76%]"
+          src="./assets/news/newsdetailspage.png"
+        />
+        <div class="text-center relative -mt-4 md:-mt-10">
+          <h2
+            class="w-full text-black text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-normal slide-in-right"
+          >
+          新闻详情页
+          </h2>
+          <div
+            class="w-16 md:w-32 h-1.5 mx-auto mt-4 md:mt-8 bg-[#FF350D]"
+          ></div>
+        </div>
+      </div>
+      <article class="text-sm sm:text-base text-[#353535] w-full px-4 md:px-20 lg:px-32 xl:px-44"></article>
+    </main>
+
+    <footer
+      class="w-full relative text-white text-[1rem] bg-[#FF350D] py-12 px-8 sm:min-w-[1200px]"
+    >
+      <address
+        class="flex flex-col md:flex-row md:flex-wrap items-start md:items-center justify-center leading-loose not-italic"
+      >
+        <div class="grid grid-cols-3">
+          <div class="text-center">
+            地址：中国山东省青岛市市南区某某中路20号
+          </div>
+          <div class="text-center">邮箱：1370XXX171@qq.com</div>
+          <div class="text-center">电话：0591-88888888</div>
+        </div>
+      </address>
+      <div class="relative flex items-center md:justify-center mx-auto mt-12">
+        <img class="w-8 h-8 mr-3" src="./assets/qrcode.png" />
+        <div class="ml-2">
+          Copyright ©2009 - 2022 Cld , All Rights Reserved 某某网络科技有限公司
+          版权所有 陕ICP备xxxxxxx号
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="./scripts/news-detail.js"></script>
+  </body>
+</html>

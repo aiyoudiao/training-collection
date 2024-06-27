@@ -7,3 +7,4 @@
   - [HTML Marquee标签 版本](https://aiyoudiao.github.io/training-collection/bullet-curtain-wall/html-bullet-curain-wall.html)
   - [CSS transition 版本](https://aiyoudiao.github.io/training-collection/bullet-curtain-wall/css-bullet-curain-wall.html)
   - JS 画布版本
+- [3. 企业站](https://aiyoudiao.github.io/training-collection/enterprise-site/index.html)
