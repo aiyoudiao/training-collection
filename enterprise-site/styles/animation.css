@@ -8,12 +8,12 @@
   animation-name: slidein-right;
 }
 
-.fadein {
-  animation: 0.5s ease-in-out fedein;
+.fadeIn {
+  animation: 0.5s ease-in-out fadeIn;
 }
 
 .fadeout {
-  animation: fadein 0.5s ease-in-out reverse;
+  animation: fadeIn 0.5s ease-in-out reverse;
 }
 
 .hover-scale {
@@ -26,6 +26,8 @@
 
 .hover-scale:hover img {
   transform: scale(1.1);
+  background-color: red;
+  /* transform: scale3d(1.1); */
 }
 
 @keyframes slidein-left {
@@ -48,7 +50,7 @@
   }
 }
 
-@keyframes fedein {
+@keyframes fadeIn {
   from {
     opacity: 0;
   }

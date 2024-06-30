@@ -9,61 +9,77 @@
     <link rel="stylesheet" href="./styles/about-us.css" />
   </head>
   <body>
-    <header class="header header--transparent" role="banner">
-      <div
-      class="z-50 relative h-16 text-white bg-[#252429] mx-auto flex items-center justify-between p-6 lg:px-8"
-      aria-label="Global">
-        <div class="header__logo">
-          <img src="./assets/logo.svg" alt="Logo" />
-          <h1 class="header__title">企业站</h1>
+    <header id="header" class="w-full z-40 bg-gray-800" role="nav">
+      <nav
+        class="w-full h-16 text-white mx-auto flex items-center justify-between py-6"
+        aria-label="Global"
+      >
+        <div class="flex gap-2 text-white items-center md:px-12 px-11">
+          <img class="w-9" src="./assets/logo.svg" alt="Logo" />
+          <h1 class="text-lg">企业站</h1>
         </div>
-        <div class="flex-auto"></div>
-        <button class="header__menu sm:hidden" aria-label="菜单">
-          <img src="./assets/menu.svg" alt="菜单" />
+        <button id="header-menu" class="md:hidden mr-11" aria-label="菜单">
+          <img class="w-8 h-8" src="./assets/menu.svg" alt="菜单" />
         </button>
-        <nav class="nav nav--horizontal sm:block" role="navigation">
-          <ul class="nav__list">
-            <li class="nav__item">
-              <a class="nav__item-text"
-                href="./index.html"
-                aria-current="page"
-                >首页</a>
-            </li>
-            <li class="nav__item">
-              <a class="nav__item-text" href="./news.html">新闻列表页</a>
-            </li>
-            <li class="nav__item nav__item--active">
-              <a class="nav__item-text" href="./about-us.html">关于我们</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+        <ul
+          class="hidden md:flex list-none gap-10 text-sm items-center pr-72 max-lg:pr-40"
+          role="navigation"
+        >
+          <!-- 移除 after:scale-0 即可，让当前菜单项高亮 -->
+          <li
+            class="text-white relative after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:content-[' '] after:block after:w-6 after:border-b-2 after:border-red-500 after:transform after:scale-0 hover:after:scale-100 after:transition-transform after:duration-300"
+          >
+            <a
+              class="text-decoration-none"
+              href="index.html"
+              aria-current="page"
+              >首页</a
+            >
+          </li>
+          <li
+            class="text-white relative after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:content-[' '] after:block after:scale-0 after:w-6 after:border-b-2 after:border-red-500 after:transform hover:after:scale-100 after:transition-transform after:duration-300"
+          >
+            <a class="text-decoration-none" href="news.html">新闻列表页</a>
+          </li>
+          <li
+            class="text-white relative after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:content-[' '] after:block after:w-6 after:border-b-2 after:border-red-500 after:transform  hover:after:scale-100 after:transition-transform after:duration-300"
+          >
+            <a class="text-decoration-none" href="about-us.html">关于我们</a>
+          </li>
+        </ul>
+      </nav>
     </header>
-    <div
-      class="drawer"
+    <section
+      id="drawer"
+      class="z-50 fixed hidden inset-y-0 w-1/2 right-0 bg-[#252429]"
       role="dialog"
-      aria-labelledby="drawer-title"
+      aria-labelledby="drawer-container"
       aria-hidden="true"
     >
-      <div class="drawer__container">
-        <button class="drawer__closer" aria-label="关闭">
-          <img src="./assets/close.svg" alt="关闭按钮" />
+      <div class="text-right">
+        <button
+          id="drawer-closer"
+          class="text-white mr-11 mt-4"
+          aria-label="关闭"
+        >
+          <img class="w-8 h-8" src="./assets/close.svg" alt="关闭按钮" />
         </button>
-        <nav class="drawer__content nav nav--vertical">
-          <ul>
-            <li class="nav__item">
-              <a class="nav__item-text" href="index.html">首页</a>
-            </li>
-            <li class="nav__item">
-              <a class="nav__item-text" href="news.html">新闻列表页</a>
-            </li>
-            <li class="nav__item">
-              <a class="nav__item-text" href="about-us.html">关于我们</a>
-            </li>
-          </ul>
-        </nav>
       </div>
-    </div>
+      <nav class="text-white text-2xl">
+        <ul>
+          <li class="px-5">
+            <a class="block py-8" href="index.html">首页</a>
+          </li>
+          <li class="px-5 [border-top:1px_solid_#333333]">
+            <a class="block py-8" href="news.html">新闻列表页</a>
+          </li>
+          <li class="px-5 [border-top:1px_solid_#333333]">
+            <a class="block py-8" href="about-us.html">关于我们</a>
+          </li>
+        </ul>
+      </nav>
+    </section>
+
     <main class="flex-auto">
       <div class="pt-48 md:pt-32 pb-12 relative">
         <img class="w-[80%] md:w-[46.67%] ml-[10%] md:ml-[27.76%]" src="./assets/aboutus/aboutus.png">
@@ -77,7 +93,7 @@
             <iframe
                 src="./map.html"
                 frameborder="0"
-                class="w-full h-80 md:h-full"
+                class="w-full h-80 md:h-full rounded-lg"
               >
             </iframe>
         </div>
@@ -116,8 +132,10 @@
       <address
         class="flex flex-col md:flex-row md:flex-wrap items-start md:items-center justify-center leading-loose not-italic"
       >
-        <div class="grid grid-cols-3">
-          <div class="text-center">地址：中国山东省青岛市市南区某某中路20号</div>
+        <div class="grid grid-cols-3 w-full">
+          <div class="text-center">
+            地址：中国山东省青岛市市南区某某中路20号
+          </div>
           <div class="text-center">邮箱：1370XXX171@qq.com</div>
           <div class="text-center">电话：0591-88888888</div>
         </div>

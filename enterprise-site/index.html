@@ -7,147 +7,170 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./styles/index.css" />
   </head>
-  <body>
-    <header class="header header--transparent" role="banner">
-      <div
-        class="z-50 relative h-16 text-white bg-[#252429] mx-auto flex items-center justify-between p-6 lg:px-8"
+  <body class="min-w-96">
+    <header id="header" class="w-full z-40" role="nav">
+      <nav
+        class="w-full h-16 text-white mx-auto flex items-center justify-between py-6"
         aria-label="Global"
       >
-        <div class="header__logo">
-          <img src="./assets/logo.svg" alt="Logo" />
-          <h1 class="header__title">企业站</h1>
+        <div class="flex gap-2 text-white items-center md:px-12 px-11">
+          <img class="w-9" src="./assets/logo.svg" alt="Logo" />
+          <h1 class="text-lg">企业站</h1>
         </div>
-        <div class="flex-auto"></div>
-        <button class="header__menu sm:hidden" aria-label="菜单">
-          <img src="./assets/menu.svg" alt="菜单" />
+        <button id="header-menu" class="md:hidden mr-11" aria-label="菜单">
+          <img class="w-8 h-8" src="./assets/menu.svg" alt="菜单" />
         </button>
-        <nav class="nav nav--horizontal sm:block" role="navigation">
-          <ul class="nav__list">
-            <li class="nav__item nav__item--active">
-              <a
-                class="nav__item-text"
-                href="index.html"
-                aria-current="page"
-                >首页</a
-              >
-            </li>
-            <li class="nav__item">
-              <a class="nav__item-text" href="news.html">新闻列表页</a>
-            </li>
-            <li class="nav__item">
-              <a class="nav__item-text" href="about-us.html">关于我们</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+        <ul
+          class="hidden md:flex list-none gap-10 text-sm items-center pr-72 max-lg:pr-40"
+          role="navigation"
+        >
+          <!-- 移除 after:scale-0 即可，让当前菜单项高亮 -->
+          <li
+            class="text-white relative after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:content-[' '] after:block after:w-6 after:border-b-2 after:border-red-500 after:transform hover:after:scale-100 after:transition-transform after:duration-300"
+          >
+            <a
+              class="text-decoration-none"
+              href="index.html"
+              aria-current="page"
+              >首页</a
+            >
+          </li>
+          <li
+            class="text-white relative after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:content-[' '] after:block after:w-6 after:border-b-2 after:border-red-500 after:transform after:scale-0 hover:after:scale-100 after:transition-transform after:duration-300"
+          >
+            <a class="text-decoration-none" href="news.html">新闻列表页</a>
+          </li>
+          <li
+            class="text-white relative after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:content-[' '] after:block after:w-6 after:border-b-2 after:border-red-500 after:transform after:scale-0 hover:after:scale-100 after:transition-transform after:duration-300"
+          >
+            <a class="text-decoration-none" href="about-us.html">关于我们</a>
+          </li>
+        </ul>
+      </nav>
     </header>
-    <div
-      class="drawer"
+    <section
+      id="drawer"
+      class="z-50 fixed hidden inset-y-0 w-1/2 right-0 bg-[#252429]"
       role="dialog"
-      aria-labelledby="drawer-title"
+      aria-labelledby="drawer-container"
       aria-hidden="true"
     >
-      <div class="drawer__container">
-        <button class="drawer__closer" aria-label="关闭">
-          <img src="./assets/close.svg" alt="关闭按钮" />
+      <div class="text-right">
+        <button
+          id="drawer-closer"
+          class="text-white mr-11 mt-4"
+          aria-label="关闭"
+        >
+          <img class="w-8 h-8" src="./assets/close.svg" alt="关闭按钮" />
         </button>
-        <nav class="drawer__content nav nav--vertical">
-          <ul>
-            <li class="nav__item">
-              <a class="nav__item-text" href="index.html">首页</a>
-            </li>
-            <li class="nav__item">
-              <a class="nav__item-text" href="news.html">新闻列表页</a>
-            </li>
-            <li class="nav__item">
-              <a class="nav__item-text" href="about-us.html">关于我们</a>
-            </li>
-          </ul>
-        </nav>
       </div>
-    </div>
-    
-    <main class="main -mt-16" role="main">
+      <nav class="text-white text-2xl">
+        <ul>
+          <li class="px-5">
+            <a class="block py-8" href="index.html">首页</a>
+          </li>
+          <li class="px-5 [border-top:1px_solid_#333333]">
+            <a class="block py-8" href="news.html">新闻列表页</a>
+          </li>
+          <li class="px-5 [border-top:1px_solid_#333333]">
+            <a class="block py-8" href="about-us.html">关于我们</a>
+          </li>
+        </ul>
+      </nav>
+    </section>
+
+    <main class="w-full  mx-auto my-0 -mt-16" role="main">
+      <!-- 轮播 -->
       <section
-        class="carousel h-80 sm:h-[640px] sm:min-w-[1200px]"
+        id="carousel"
+        class="relative flex w-full overflow-hidden h-[33rem] md-h-[50rem]"
         aria-label="图片轮播"
       >
-        <div class="carousel__container"></div>
-        <div class="carousel__indicator"></div>
+        <div id="carousel-container" class="relative h-full w-full"></div>
+        <div
+          id="carousel-indicator"
+          class="z-10 absolute flex flex-col items-center -translate-y-2/4 md:pt-16 lg:left-12 max-lg:left-11 top-2/4 gap-y-2 text-5xl"
+        ></div>
       </section>
-      <div
-        class="fixed-container flex flex-col h-auto sm:pb-[20%] overflow-hidden"
+      <section
+        class="mx-auto my-0 flex flex-col w-full md:pb-[10%] overflow-hidden"
       >
-        <section class="px-4 sm:flex sm:flex-row sm:bg-[#f6f6f6]">
+        <section class="w-full pt-20 px-4 block md:flex md:flex-row bg-[#f6f6f6] pb-40">
           <article
-            class="text-sm sm:flex-auto sm:basis-1/2 sm:px-20 slidein-left"
+            class="relative flex flex-col justify-start items-start md:w-1/2 ml-5 slidein-left"
             data-animation="left-slide-in"
           >
-            <h2 class="page-title sm:text-5xl sm:my-6">服务范围</h2>
-            <p>
+            <img
+              class="md:max-h-32 md:w-[52rem] z-0  max-md:max-h-15 max-md:w-[25rem]"
+              src="./assets/servicescope.png"
+            />
+            <h2 class="md:ml-8 md:-mt-12 max-md:-mt-5 max-md:ml-2 page-title text-5xl z-10">服务范围</h2>
+            <p class="md:ml-8 md:mr-8 md:mt-12 md:text-2xl max-md:text-[28px] max-md:leading-[36px]">
               依托百度政务混合云，汇聚城市管理及公安等政务领域的自有数据及互联网公开数据，基于百度大数据多年积累的行业模型及实战经验，提供从数据整合治理到分析挖掘的一站式大数据解决方案，助力智慧政务新时代。
             </p>
-            <p>
+            <p class="md:ml-8 md:mr-8 md:mt-8 md:text-2xl max-md:text-[28px] max-md:leading-[36px]">
               全渠道零售方案包括B2C、O2O、B2B的场景，提供APP/小程序，支持对接饿了么、美团等第三方外卖平台，基于阿里巴巴多年沉淀的业务中台技术，建立商品、会员、交易、营销等共享服务中心，实现全渠道数据的共享和一致，帮助零售商打造线上、线下无差别的全渠道销售能力。
             </p>
           </article>
           <section
-            class="fadein -mx-5 sm:-mx-6 sm:-mb-[20%] mt-2 sm:flex-auto sm:basis-1/2 sm:-ml-20 fadein"
+            class="-mx-5 md:-mx-6 md:-mb-[20%]  md:mt-[32rem] lg:mt-[18rem] xl:mt-[8rem] md:flex-auto md:w-1/2 max-md:w-full fadeIn"
           >
-            <div class="flex items-end justify-end">
+            <div class="flex items-end justify-end w-full">
               <img
-                class="sm:hidden w-[21.4%] p-1"
+                class="md:hidden w-[21.4%] p-1"
                 data-lazy="./assets/service2.jpg"
                 alt="插图"
               />
               <img
-                class="sm:hidden w-[60.7%] p-1"
+                class="md:hidden w-[60.7%] p-1"
                 data-lazy="./assets/service1.jpg"
                 alt="插图"
               />
               <img
-                class="hidden sm:block w-[26.7%] p-2"
+                class="hidden md:block w-[26.7%] p-2"
                 data-lazy="./assets/service2-lg.jpg"
                 alt="插图"
               />
               <img
-                class="hidden sm:block w-[72.9%] p-2"
+                class="hidden md:block w-[72.9%] p-2"
                 data-lazy="./assets/service1-lg.jpg"
                 alt="插图"
               />
             </div>
             <div class="flex items-start justify-end">
               <img
-                class="sm:hidden w-[59%] p-1"
+                class="md:hidden w-[59%] p-1"
                 data-lazy="./assets/service4.jpg"
                 alt="插图"
               />
               <img
-                class="sm:hidden w-[41%] p-1"
+                class="md:hidden w-[41%] p-1"
                 data-lazy="./assets/service3.jpg"
                 alt="插图"
               />
               <img
-                class="hidden sm:block w-[68.5%] p-2"
+                class="hidden md:block w-[68.5%] p-2"
                 data-lazy="./assets/service4-lg.jpg"
                 alt="插图"
               />
               <img
-                class="hidden sm:block w-[47.9%] p-2"
+                class="hidden md:block w-[47.9%] p-2"
                 data-lazy="./assets/service3-lg.jpg"
                 alt="插图"
               />
             </div>
           </section>
         </section>
-      </div>
+      </section>
       <section
-        class="hidden sm:block culture h-[320px] sm:min-w-[1200px] text-white"
+        class="hidden md:block culture h-80 text-white"
         aria-labelledby="culture-title"
       >
-        <div class="fixed-container flex items-center justify-center h-full">
+        <div
+          class="my-0 mx-auto w-full h-full flex items-center justify-center h-full"
+        >
           <article class="px-6 relative z-10">
-            <h2 id="culture-title" class="page-title sm:text-5xl sm:my-6">
+            <h2 id="culture-title" class="page-title md:text-5xl md:my-6">
               企业文化
             </h2>
             <p class="text-white">
@@ -159,68 +182,68 @@
           </article>
         </div>
       </section>
-      <section class="team fixed-container h-auto" aria-labelledby="team-title">
+      <section class="team w-full mx-auto my-0 h-auto" aria-labelledby="team-title">
         <h2
           id="team-title"
-          class="page-title sm:text-5xl sm:my-6"
+          class="page-title md:text-5xl md:my-6"
           data-animation="slidein-right"
         >
           团队介绍
         </h2>
-        <ul class="sm:flex leading-normal">
-          <li class="member sm:basis-1/3 hover-scale">
+        <ul class="md:grid md:grid-cols-3 md:-gap-1 leading-normal">
+          <li class="member hover-scale -mr-1 ">
             <div class="member__picture">
               <img data-lazy="./assets/member1.jpg" alt="Jon Smith" />
             </div>
-            <div class="member__detail" data-animation="fadein">
+            <div class="member__detail" data-animation="fadeIn">
               <div class="member__name">Jon Smith</div>
               <div class="member__description">特级教师，从事教育工作10年</div>
-              <div class="more sm:mt-6">More information</div>
+              <div class="more md:mt-6">More information</div>
             </div>
           </li>
-          <li class="member sm:basis-1/3 hover-scale">
+          <li class="member hover-scale -mr-1">
             <div class="member__picture">
               <img data-lazy="./assets/member2.jpg" alt="Merri Bond" />
             </div>
-            <div class="member__detail" data-animation="fadein">
+            <div class="member__detail" data-animation="fadeIn">
               <div class="member__name">Merri Bond</div>
               <div class="member__description">特级教师，从事教育工作10年</div>
-              <div class="more sm:mt-6">More information</div>
+              <div class="more md:mt-6">More information</div>
             </div>
           </li>
-          <li class="member sm:basis-1/3 hover-scale">
+          <li class="member hover-scale -mr-1">
             <div class="member__picture">
               <img data-lazy="./assets/member3.jpg" alt="Samuel Fredman" />
             </div>
-            <div class="member__detail" data-animation="fadein">
+            <div class="member__detail" data-animation="fadeIn">
               <div class="member__name">Samuel Fredman</div>
               <div class="member__description">特级教师，从事教育工作10年</div>
-              <div class="more sm:mt-6">More information</div>
+              <div class="more md:mt-6">More information</div>
             </div>
           </li>
         </ul>
       </section>
-      <section class="news fixed-container h-auto" aria-labelledby="news-title">
+      <section class="news w-full mx-auto my-0 h-auto" aria-labelledby="news-title">
         <h2
           id="news-title"
-          class="page-title sm:text-5xl sm:my-6 sm:mt-12"
+          class="page-title md:text-5xl md:my-6 md:mt-12"
           data-animation="slidein-right"
         >
           新闻动态
         </h2>
-        <ul class="news__list sm:mx-4">
+        <ul class="news__list overflow-hidden -mx-2 p-4 grid lg:grid-cols-4 md:grid-cols-3  grid-cols-2 md:mx-4">
           <li class="news__empty">暂无数据</li>
         </ul>
       </section>
     </main>
 
     <footer
-      class="w-full relative text-white text-[1rem] bg-[#FF350D] py-12 px-8 sm:min-w-[1200px]"
+      class="w-full relative text-white text-[1rem] bg-[#FF350D] py-12 px-8"
     >
       <address
         class="flex flex-col md:flex-row md:flex-wrap items-start md:items-center justify-center leading-loose not-italic"
       >
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-3 w-full">
           <div class="text-center">
             地址：中国山东省青岛市市南区某某中路20号
           </div>

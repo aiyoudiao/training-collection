@@ -9,8 +9,9 @@ export class LazyLoadImage {
    * @param {string} sizes
    * @returns {HTMLDivElement}
    */
-  static create(image, placeholderImage, alt, srcset, sizes) {
+  static create(image, placeholderImage, alt, srcset, sizes, classList = []) {
     const img = document.createElement("img");
+    img.classList.add(...classList);
     img.setAttribute("data-lazy", image);
     if (srcset) {
       img.setAttribute("data-srcset", srcset);

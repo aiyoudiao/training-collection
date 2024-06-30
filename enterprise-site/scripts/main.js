@@ -12,13 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   new Carousel();
 
-  const $menu = document.querySelector(".header__menu");
-  const $drawer = document.querySelector(".drawer");
-  const $drawerCloser = document.querySelector(".drawer__closer");
-  const $drawerContainer = document.querySelector(".drawer__container");
+  const $menu = document.querySelector("#header-menu");
+  const $drawer = document.querySelector("#drawer");
+  const $drawerCloser = document.querySelector("#drawer-closer");
 
-  if ($drawerContainer) {
-    const drawerAnimation = $drawerContainer.animate(
+  if ($drawer) {
+    const drawerAnimation = $drawer.animate(
       [{ transform: "translateX(100%)" }, { transform: "translateX(0)" }],
       {
         duration: 300,
@@ -30,12 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $menu.addEventListener("click", () => {
       toggleDrawer();
-      $drawerContainer.style.transform = "translateX(100%)";
+      $drawer.style.transform = "translateX(100%)";
       setTimeout(() => {
         drawerAnimation.playbackRate = 1;
         drawerAnimation.play();
         drawerAnimation.onfinish = () => {
-          $drawerContainer.style.transform = "translateX(0)";
+          $drawer.style.transform = "translateX(0)";
         };
       }, 50);
     });
@@ -45,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       drawerAnimation.playbackRate = -1;
       drawerAnimation.play();
       drawerAnimation.onfinish = () => {
-        $drawerContainer.style.transform = "translateX(100%)";
+        $drawer.style.transform = "translateX(100%)";
         toggleDrawer();
       };
     });
@@ -55,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function toggleDrawer() {
-      $drawer.classList.toggle("drawer--active");
+      $drawer.classList.toggle("max-md:block");
     }
   }
 
