@@ -33,9 +33,10 @@ export class Carousel {
     ];
 
     this.bannerDoms = [];
-    this.$carousel = document.querySelector(".carousel");
-    this.$carouselContainer = document.querySelector(".carousel__container");
-    this.$carouselIndicator = document.querySelector(".carousel__indicator");
+    this.$header = document.querySelector("#header");
+    this.$carousel = document.querySelector("#carousel");
+    this.$carouselContainer = document.querySelector("#carousel-container");
+    this.$carouselIndicator = document.querySelector("#carousel-indicator");
 
     this.indicatorItems = this.createIndicators();
     this.counter = 0;
@@ -51,12 +52,14 @@ export class Carousel {
    * 设置事件监听
    */
   setupEvents() {
-    this.$carousel.addEventListener("mouseenter", () => {
-      if (this.animation) this.animation.pause();
-    });
+    [this.$header, this.$carousel].forEach((item) => {
+      item.addEventListener("mouseenter", () => {
+        if (this.animation) this.animation.pause();
+      });
 
-    this.$carousel.addEventListener("mouseleave", () => {
-      if (this.animation) this.animation.play();
+      item.addEventListener("mouseleave", () => {
+        if (this.animation) this.animation.play();
+      });
     });
 
     this.indicatorItems.forEach((item, i) => {
@@ -89,29 +92,28 @@ export class Carousel {
 
     if (this.currentBanner) {
       this.currentBanner.classList.add("fadeout");
-      this.currentBanner.classList.remove("fadein");
+      this.currentBanner.classList.remove("fadeIn");
     }
 
     if (this.currentIndicator) {
-      this.currentIndicator.classList.remove(
-        "carousel__indicator-item--active"
-      );
+      this.currentIndicator.classList.remove("scale-150");
     }
 
     this.currentBanner = banner;
-    this.currentBanner.classList.add("fadein");
+    this.currentBanner.classList.add("fadeIn");
     this.currentBanner.classList.remove("fadeout");
     this.currentBanner.style.zIndex = currentIndex;
 
     this.currentIndicator = indicator;
-    this.currentIndicator.classList.add("carousel__indicator-item--active");
+    this.currentIndicator.classList.add("scale-150");
 
     const $innerBar = Array.from(
-      document.querySelectorAll(".progress__inner-bar")
+      document.querySelectorAll("[name='progress-inner-bar']")
     ).find((el) => this.matchParent(el.parentElement, this.currentIndicator));
 
+    // 获取半径为40的圆的周长，
     this.animation = $innerBar.animate(
-      [{ strokeDashoffset: 2 * Math.PI * 40 }, { strokeDashoffset: 0 }],
+      [{ strokeDashoffset: 251 }, { strokeDashoffset: 0 }],
       5000
     );
 
@@ -130,19 +132,30 @@ export class Carousel {
     const banner = this.bannerInfos[index];
 
     const $carouselTitle = document.createElement("div");
-    $carouselTitle.classList.add("carousel__title", "sm:text-6xl");
+    $carouselTitle.classList.add(
+      "md:text-[5rem]",
+      "md:leading-[6.5rem]",
+      "max-md:text-5xl"
+    );
     $carouselTitle.textContent = banner.title;
 
     const $carouselDescription = document.createElement("div");
     $carouselDescription.classList.add(
-      "carousel__description",
-      "sm:mt-6",
-      "sm:text-3xl"
+      "md:mt-7",
+      "md:text-4xl",
+      "max-md:mt-3",
+      "max-md:text-xl"
     );
     $carouselDescription.textContent = banner.description;
 
     const $carouselContent = document.createElement("div");
-    $carouselContent.classList.add("carousel__content", "sm:justify-center");
+    $carouselContent.classList.add(
+      ..."relative w-full h-full flex flex-col items-center justify-end bg-center bg-no-repeat bg-cover text-white pt-0 pb-[10%] px-[10%]".split(
+        " "
+      ),
+      "md:justify-center",
+      "md:pt-16"
+    );
     $carouselContent.append($carouselTitle, $carouselDescription);
 
     const $carouselImage = LazyLoadImage.create(
@@ -150,16 +163,21 @@ export class Carousel {
       banner.imagePlaceholder,
       "横幅",
       banner.imageSet,
-      "100vw"
+      "100vw",
+      "w-full h-full object-cover".split(" ")
     );
-    $carouselImage.classList.add("carousel__image");
+    $carouselImage.classList.add("absolute", "inset-0");
 
     const $carouselContentWrapper = document.createElement("div");
-    $carouselContentWrapper.classList.add("carousel__content-wrapper");
+    $carouselContentWrapper.classList.add(
+      ..."relative w-full h-full".split(" ")
+    );
     $carouselContentWrapper.append($carouselImage, $carouselContent);
 
     const $carouselItem = document.createElement("div");
-    $carouselItem.classList.add("carousel__item");
+    $carouselItem.classList.add(
+      ..."z-0 absolute top-0 left-0 w-full h-full".split(" ")
+    );
     $carouselItem.append($carouselContentWrapper);
 
     return $carouselItem;
@@ -172,12 +190,19 @@ export class Carousel {
   createIndicators() {
     return Array.from({ length: this.bannerInfos.length }).map(() => {
       const $indicatorItem = document.createElement("div");
-      $indicatorItem.classList.add("carousel__indicator-item");
+      //
+      $indicatorItem.classList.add(
+        ..."cursor-pointer transition-all duration-[linear] delay-[0.2s] scale-100 hover:scale-150".split(
+          " "
+        )
+      );
       $indicatorItem.innerHTML = `
-            <svg class="progress" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <circle class="progress__inner-bar" cx="50" cy="50" r="40"></circle>
-              <circle class="progress__bar" cx="50" cy="50" r="40" />
-            </svg>
+            <span class="w-4 h-4">
+              <svg  class="w-3 h-3" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle name="progress-inner-bar" fill="none" stroke="white" stroke-width="10" stroke-dasharray="251" cx="50" cy="50" r="40" transform="rotate(-90 50 50)" stroke-linecap="round" class="[stroke-dashoffset:251]"></circle>
+                <circle cx="50" cy="50" r="40" stroke="#B1B1B1" stroke-opacity="0.5" fill="none" stroke-width="10"/>
+              </svg>
+            </span>
           `;
       return $indicatorItem;
     });

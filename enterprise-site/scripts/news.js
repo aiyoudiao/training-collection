@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const lazyLoadObserver = new LazyLoadObserver();
   new DOMObserver(animationObserver, lazyLoadObserver);
 
-  const $menu = document.querySelector(".header__menu");
+  const $menu = document.querySelector(".header-menu");
   const $drawer = document.querySelector(".drawer");
   const $drawerCloser = document.querySelector(".drawer__closer");
   const $drawerContainer = document.querySelector(".drawer__container");

@@ -21,12 +21,12 @@ export class NewsItem {
 
     const titleElem = document.createElement("h3");
     titleElem.classList.add("news__title", "sm:text-lg");
-    titleElem.setAttribute("data-animation", "fadein");
+    titleElem.setAttribute("data-animation", "fadeIn");
     titleElem.textContent = title;
 
     const summaryElem = document.createElement("p");
     summaryElem.classList.add("news__summary");
-    summaryElem.setAttribute("data-animation", "fadein");
+    summaryElem.setAttribute("data-animation", "fadeIn");
     summaryElem.textContent = summary;
 
     const link = document.createElement("a");
