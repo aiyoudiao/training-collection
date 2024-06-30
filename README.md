@@ -8,3 +8,4 @@
   - [CSS transition 版本](https://aiyoudiao.github.io/training-collection/spring-curtain-wall/css-spring-curtain-wall.html)
   - JS 画布版本
 - [3. 企业站](https://aiyoudiao.github.io/training-collection/enterprise-site/index.html)
+- [4. Github 热门项目](https://aiyoudiao.github.io/training-collection/github-hot-project/index.html)
