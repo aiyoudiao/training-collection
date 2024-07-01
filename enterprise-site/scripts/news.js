@@ -14,6 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const $newsList = document.querySelector(".news__list");
   const $paginationSizer = document.querySelector(".pagination__sizer");
   const $paginationInput = document.querySelector(".pagination__jumper-input");
+  const $paginationJumperButton = document.querySelector("#page-jumper-button");
 
-  new Pagination($paginationSizer, $paginationInput, $newsList);
+  new Pagination(
+    $paginationSizer,
+    $paginationInput,
+    $paginationJumperButton,
+    $newsList
+  );
 });

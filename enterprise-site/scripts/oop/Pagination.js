@@ -7,10 +7,16 @@ export class Pagination {
    * @param {HTMLInputElement} paginationInput - 页码跳转输入框
    * @param {HTMLElement} newsList - 新闻列表容器
    */
-  constructor(paginationSizer, paginationInput, newsList) {
+  constructor(
+    paginationSizer,
+    paginationInput,
+    paginationJumperButton,
+    newsList
+  ) {
     this.total = 100;
     this.paginationSizer = paginationSizer;
     this.paginationInput = paginationInput;
+    this.paginationJumperButton = paginationJumperButton;
     this.newsList = newsList;
     this.url = new URL(window.location.href);
     this.page = parseInt(this.url.searchParams.get("page")) || 1;
@@ -53,11 +59,37 @@ export class Pagination {
    * 添加分页跳转输入框的事件监听
    */
   addPaginationInputEvent() {
-    this.paginationInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && e.target.value !== "") {
-        this.url.searchParams.set("page", e.target.value);
+    // 验证页码是否为正整数
+    const isPositiveInteger = (value) => {
+      const number = Number(value);
+      return Number.isInteger(number) && number > 0;
+    };
+
+    const jumperPage = (value) => {
+      if (
+        value !== "" &&
+        isPositiveInteger(value) &&
+        value <= Math.ceil(this.total / this.limit) &&
+        value > 0
+      ) {
+        this.url.searchParams.set("page", value);
         window.location.href = this.url.toString();
+        return;
       }
+
+      this.paginationInput.select();
+      alert("请输入有效的页码");
+    };
+
+    this.paginationInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        jumperPage(e.target.value);
+      }
+    });
+
+    this.paginationJumperButton.addEventListener("click", () => {
+      const value = Number(this.paginationInput.value);
+      jumperPage(value);
     });
   }
 
@@ -150,7 +182,15 @@ export class Pagination {
   loadNews(page, limit) {
     const newsService = NewsService.getNewsService();
     newsService.getNews(page, limit).then((res) => {
-      const { data: newsList, page, limit, total } = res;
+      const {
+        code,
+        data: newsList,
+        links: { page, limit, total },
+      } = res;
+      if (code !== 200) {
+        return;
+      }
+
       this.total = total;
       this.generatePagination(total, page, limit);
       this.newsList.innerHTML = "";

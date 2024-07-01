@@ -20,7 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const builder = new NewsArticleBuilder(newsId);
   const newsService = NewsService.getNewsService();
 
-  newsService.getNewsById(newsId).then((news) => {
+  newsService.getNewsById(newsId).then(({ code, data: news }) => {
+    if (code !== 200) {
+      return;
+    }
     builder.buildArticle(news);
   });
 

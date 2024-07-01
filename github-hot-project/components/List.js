@@ -4,7 +4,7 @@ import { InfinityLoad } from "./InfinityLoad";
 
 function Item({ data: repo, indexKey }) {
   return (
-    <div className="flex-1 lg:w-1/4 md:w-1/3 w-1/2 p-2" key={repo.id}>
+    <div className="lg:w-1/4 md:w-1/3 w-1/2 p-2" key={repo.id}>
       <div className="bg-green-100 py-4 rounded-lg shadow-lg">
         <div className="px-4 mb-2 text-center text-lg text-green-800">
           第 {indexKey} 名
