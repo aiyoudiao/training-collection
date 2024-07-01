@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS 版本弹幕墙</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 60px;
+      }
+
+      main {
+        box-sizing: border-box;
+        margin: 10px 20px 10px;
+        height: calc(100vh - 220px);
+        border: 4px solid #2c2c2c;
+        position: relative;
+        overflow: hidden;
+        background-color: #f0f0f0;
+        user-select: none;
+        border-radius: 5px;
+        box-shadow: 0 0 10px #2c2c2c;
+      }
+
+      main canvas {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 140px;
+        background-color: #2c2c2c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+      }
+
+      footer input[type="text"] {
+        width: 312px;
+        height: 30px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 0 10px;
+      }
+
+      footer .button-group {
+        margin-top: 10px;
+      }
+
+      footer input[type="button"] {
+        cursor: pointer;
+        width: 80px;
+        height: 30px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 0 10px;
+      }
+
+      footer input[type="button"]:hover {
+        background-color: #000;
+        color: #fff;
+      }
+    </style>
+    <script src="./createReadableColor.js"></script>
+
+    <script>
+      // 弹幕属性类
+      class SpringCurtainAttribute {
+        static springCurtainAttribute = null;
+        static getSpringCurtainAttribute() {
+          if (SpringCurtainAttribute.springCurtainAttribute) {
+            return SpringCurtainAttribute.springCurtainAttribute;
+          }
+
+          SpringCurtainAttribute.springCurtainAttribute =
+            new SpringCurtainAttribute();
+
+          return SpringCurtainAttribute.springCurtainAttribute;
+        }
+
+        constructor() {
+          // 弹幕颜色集合16进制
+          this.colors = Array(24)
+            .fill(0)
+            .map((_, i) => generateReadableColor("#f0f0f0"));
+          // 弹幕速度集合
+          this.speeds = Array(5)
+            .fill(0)
+            .map((_, i) => i + 1);
+          // 弹幕字体集合
+          this.fonts = [
+            "微软雅黑",
+            "宋体",
+            "黑体",
+            "仿宋",
+            "隶书",
+            "幼圆",
+            "华文彩云",
+            "华文行楷",
+            "华文宋体",
+            "华文中宋",
+            "华文仿宋",
+            "华文琥珀",
+            "华文隶书",
+            "华文新魏",
+            "华文彦宋",
+            "华文琥珀",
+            "华文隶书",
+            "华文行楷",
+            "华文新魏",
+            "华文中宋",
+            "华文仿宋",
+            "华文楷体",
+            "华文宋体",
+          ];
+          // 弹幕字体大小集合
+          this.fontSizes = Array(24)
+            .fill(0)
+            .map((_, i) => i + 12);
+          // 弹幕字体粗细集合
+          this.fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+        }
+
+        getRandomColor() {
+          const colorIndex = Math.floor(Math.random() * this.colors.length);
+          return this.colors[colorIndex];
+        }
+
+        getRandomSpeed() {
+          const speedIndex = Math.floor(Math.random() * this.speeds.length);
+          return this.speeds[speedIndex];
+        }
+
+        getRandomFont() {
+          const fontIndex = Math.floor(Math.random() * this.fonts.length);
+          return this.fonts[fontIndex];
+        }
+
+        getRandomFontSize() {
+          const fontSizeIndex = Math.floor(
+            Math.random() * this.fontSizes.length
+          );
+          return this.fontSizes[fontSizeIndex];
+        }
+
+        getRandomFontWeight() {
+          const fontWeightIndex = Math.floor(
+            Math.random() * this.fontWeights.length
+          );
+          return this.fontWeights[fontWeightIndex];
+        }
+      }
+
+      /**
+       * 弹幕类。
+       */
+      class SpringCurtain {
+        /**
+         * 创建一个新的弹幕对象。
+         * @param {string} canvas - canvas元素的ID。
+         * @param {number} canvasWidth - canvas的宽度。
+         * @param {number} canvasHeight - canvas的高度。
+         */
+        constructor(canvas, canvasWidth, canvasHeight) {
+          this.springCurtainAttribute =
+            SpringCurtainAttribute.getSpringCurtainAttribute();
+          this.canvas = document.querySelector(canvas);
+          this.context = this.canvas.getContext("2d");
+          this.canvasHeight = canvasHeight;
+          this.canvasWidth = canvasWidth;
+          this.canvas.width = this.canvasWidth;
+          this.canvas.height = this.canvasHeight;
+          this.draw = false;
+          this.springCurtainList = [];
+        }
+
+        /**
+         * 清除所有弹幕。
+         */
+        clearSpringCurtain() {
+          this.draw = false;
+          this.springCurtainList = [];
+          this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight); // 清空canvas内容
+        }
+
+        /**
+         * 获取当前可绘制的弹幕。
+         * @return {Array} - 可绘制的弹幕数组。
+         */
+        getCurrentSpringCurtain() {
+          return this.springCurtainList.filter(
+            (springCurtainItem) =>
+              springCurtainItem.left + springCurtainItem.width > 0
+          );
+        }
+
+        /**
+         * 在canvas上绘制弹幕。
+         */
+        drawSpringCurtain() {
+          if (!this.draw) {
+            return;
+          }
+          this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight); // 清空canvas内容
+
+          const viewList = this.getCurrentSpringCurtain(); // 获取可绘制的弹幕
+          if (viewList.length > 0) {
+            viewList.forEach((val) => {
+              const {
+                color,
+                fontSize,
+                font,
+                fontWeight,
+                width,
+                value,
+                left,
+                top,
+                speed,
+                isHovered,
+              } = val;
+              this.context.fillStyle = color; // 设置弹幕颜色
+              this.context.font = `${fontWeight} ${fontSize}px "${font}", sans-serif`;
+              val.width =
+                width || Math.ceil(this.context.measureText(value).width); // 计算弹幕宽度
+              this.context.fillText(`${value} `, left, top);
+              if (!isHovered) {
+                val.left -= speed; // 向左移动弹幕
+              }
+            });
+            requestAnimationFrame(this.drawSpringCurtain.bind(this)); // 递归调用drawSpringCurtain
+          } else {
+            this.draw = false;
+          }
+        }
+
+        /**
+         * 添加新的弹幕。
+         * @param {string} val - 弹幕内容。
+         */
+        addSpringCurtain(val) {
+          if (val) {
+            this.springCurtainList.push(this.generateSpringCurtain(val));
+            if (!this.draw) {
+              // 如果没有在绘制，则开始绘制
+              this.draw = true;
+              this.drawSpringCurtain();
+            }
+          }
+        }
+
+        /**
+         * 生成一个新的弹幕对象。
+         * @param {string} value - 弹幕内容。
+         * @return {Object} - 生成的弹幕对象。
+         */
+        generateSpringCurtain(value) {
+          const { springCurtainAttribute } = this;
+          const fontSize = springCurtainAttribute.getRandomFontSize();
+          let top = Math.floor(Math.random() * this.canvasHeight);
+
+          if (top + fontSize > this.canvasHeight) {
+            // 如果超出高度则调整
+            top = this.canvasHeight - fontSize * 2 - 10;
+          }
+
+          const newCurtain = {
+            value, // 弹幕内容
+            top,
+            left: this.canvasWidth, // 弹幕起始位置
+            color: springCurtainAttribute.getRandomColor(), // 随机弹幕颜色
+            fontSize,
+            font: springCurtainAttribute.getRandomFont(),
+            fontWeight: springCurtainAttribute.getRandomFontWeight(),
+            speed: springCurtainAttribute.getRandomSpeed(), // 随机弹幕速度
+            width: 0, // 初始宽度为0，会重新计算
+            isHovered: false, // 是否被悬浮
+          };
+
+          // 添加鼠标事件监听器
+          this.addMouseListeners(newCurtain);
+
+          return newCurtain;
+        }
+
+        /**
+         * 添加鼠标事件监听器。
+         * @param {Object} curtain - 弹幕对象。
+         */
+        addMouseListeners(curtain) {
+          this.canvas.addEventListener("mousemove", (event) => {
+            const { left, top, width, fontSize } = curtain;
+            const x = event.offsetX;
+            const y = event.offsetY;
+
+            if (
+              x >= left &&
+              x <= left + width &&
+              y >= top - fontSize &&
+              y <= top
+            ) {
+              curtain.isHovered = true;
+            } else {
+              curtain.isHovered = false;
+            }
+          });
+        }
+      }
+
+      /**
+       * 弹幕装饰类，给 SpringCurtain 增加一个 快照功能。
+       */
+      class SpringCurtainDecorator extends SpringCurtain {
+        /**
+         * 创建一个新的弹幕历史实例。
+         * @param {string} canvas - canvas元素的ID。
+         * @param {number} canvasWidth - canvas的宽度。
+         * @param {number} canvasHeight - canvas的高度。
+         */
+        constructor(canvas, canvasWidth, canvasHeight) {
+          super(canvas, canvasWidth, canvasHeight);
+          this.snapshot = [];
+        }
+
+        /**
+         * 生成当前弹幕的快照。
+         */
+        generateSnapshot() {
+          this.snapshot = this.getCurrentSpringCurtain().map((item) => ({
+            ...item,
+          }));
+        }
+
+        /**
+         * 播放弹幕快照。
+         */
+        playSnapshot() {
+          this.clearSpringCurtain();
+          console.log("playSnapshot", this.snapshot);
+          this.springCurtainList = this.snapshot.map((item) => ({ ...item }));
+          this.draw = true;
+          this.drawSpringCurtain();
+        }
+
+        /**
+         * 清除弹幕快照。
+         */
+        clearSnapshot() {
+          this.clearSpringCurtain();
+          this.snapshot = [];
+        }
+      }
+    </script>
+    <script>
+      window.onload = function () {
+        const { width, height } = document
+          .querySelector("main")
+          .getBoundingClientRect();
+        const springCurtainDecorator = new SpringCurtainDecorator(
+          "#my-canvas",
+          width,
+          height
+        );
+
+        const input = document.querySelector("#input");
+        const btn = document.querySelector("#btn");
+        const main = document.querySelector("main");
+
+        // 清空弹幕
+        const clearSpringCurtainWall = () => {
+          springCurtainDecorator.clearSpringCurtain();
+        };
+
+        // 暂停单个弹幕
+        const pausedSingleSpring = (ele) => {};
+
+        // 暂停弹幕
+        const pauseSpringCurtainWall = () => {
+          springCurtainDecorator.draw = false;
+        };
+
+        // 恢复单个弹幕
+        const resumeSingleSpring = (ele) => {};
+
+        // 恢复暂停的弹幕
+        const resumeSpringCurtainWall = () => {
+          springCurtainDecorator.draw = true;
+          springCurtainDecorator.drawSpringCurtain();
+        };
+
+        // 创建弹幕
+        const createSpringCurtain = () => {
+          if (!input.value) {
+            return;
+          }
+          springCurtainDecorator.addSpringCurtain(input.value);
+          input.value = "";
+        };
+
+        // 触发弹幕
+        const triggerSpringCurtain = () => {
+          createSpringCurtain();
+        };
+
+        btn.addEventListener("click", function () {
+          triggerSpringCurtain();
+        });
+        clear.addEventListener("click", function () {
+          clearSpringCurtainWall();
+        });
+        pause.addEventListener("click", function () {
+          pauseSpringCurtainWall();
+        });
+        resume.addEventListener("click", function () {
+          resumeSpringCurtainWall();
+        });
+        input.addEventListener("keydown", function (e) {
+          if (e.keyCode === 13) {
+            btn.click();
+          }
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>弹幕墙</h1>
+    </header>
+    <main class="screen" onselectstart="return false;">
+      <canvas id="my-canvas"> </canvas>
+    </main>
+    <footer onselectstart="return false;">
+      <input type="text" id="input" placeholder="请输入弹幕内容" />
+      <div class="button-group" onselectstart="return false;">
+        <input type="button" id="btn" value="发射弹幕" />
+        <input type="button" id="clear" value="清空弹幕" />
+        <input
+          type="button"
+          id="pause"
+          value="暂停弹幕"
+        />
+        <input
+          type="button"
+          id="resume"
+          value="恢复弹幕"
+        />
+      </div>
+    </footer>
+  </body>
+</html>
