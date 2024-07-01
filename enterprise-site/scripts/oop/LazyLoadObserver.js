@@ -28,10 +28,8 @@ export class LazyLoadObserver {
    * @param {HTMLImageElement} img
    */
   static setImageAttr(img) {
-    console.log("img.dateSet", img);
     const { lazy, placeholder, srcset } = img.dataset;
     img.src = lazy;
-    console.log("lazy: ", { lazy, placeholder, srcset });
 
     if (srcset) {
       img.srcset = srcset;

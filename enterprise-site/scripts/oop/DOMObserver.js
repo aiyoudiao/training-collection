@@ -17,13 +17,11 @@ export class DOMObserver {
    * @param {MutationRecord[]} mutations
    */
   handleMutations(mutations) {
-    console.log("Mutations", mutations);
     for (const mutation of mutations) {
       if (mutation.addedNodes.length === 0) continue;
 
       for (const node of mutation.addedNodes) {
         if (node instanceof HTMLElement) {
-          console.log("node instance", node);
           const animationItems = node.querySelectorAll("[data-animation]");
           this.animationObserver.observe(animationItems);
 

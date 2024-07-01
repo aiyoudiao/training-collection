@@ -50,7 +50,12 @@ export class Pagination {
    */
   addPaginationSizerEvent() {
     this.paginationSizer.addEventListener("change", (e) => {
+      // 计算总页数
+      const totalPages = Math.ceil(this.total / Number(e.target.value));
+      // 检查请求页码，如果请求的页码超过总页数，则跳转到最后一页
+      const currentPage = this.page > totalPages ? totalPages : this.page;
       this.url.searchParams.set("limit", e.target.value);
+      this.url.searchParams.set("page", currentPage);
       window.location.href = this.url.toString();
     });
   }
