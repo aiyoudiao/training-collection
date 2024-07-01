@@ -1,53 +1,43 @@
-const { useState, useEffect, useRef } = React;
-const { createRoot } = ReactDOM;
-import { Nav } from "./components/Nav.js";
-import { List } from "./components/List.js";
-import { Modal } from "./components/Modal.js";
+import React, { useRef, useState, useEffect } from "react";
+import { Nav } from "@/components/Nav";
+import { List } from "@/components/List";
+import { Modal } from "@/components/Modal";
+import { useUrlLang, useRequestUrl } from "@/hooks/useUtils";
 
-/**
- * 获取 URL 中的语言参数
- * @returns {string} - 语言参数或 "All"（如果未指定）
- */
-const fetchUrlLang = () =>
-  new URLSearchParams(window.location.search).get("language") || "All";
+interface Repo {
+  id: number;
+  name: string;
+  // 其他仓库相关字段
+}
 
-/**
- * 构建 GitHub 仓库的请求 URL
- * @param {string} [lang="All"] - 要过滤的编程语言
- * @param {number} [current=1] - 分页的页码
- * @param {number} [limit=10] - 每页的条数
- * @returns {string} - 构建的请求 URL
- */
-const buildRequestUrl = (lang = "All", current = 1, limit = 10) => {
-  const baseUrl = "https://api.github.com/search/repositories";
-  const query =
-    lang === "All"
-      ? "q=stars:%3E1&sort=stars&order=desc&type=Repositories"
-      : `q=stars:%3E1+language:${lang}&sort=stars&order=desc&type=Repositories`;
-  return `${baseUrl}?${query}&page=${current}&per_page=${limit}`;
-};
+interface Params {
+  current: number;
+  lang: string;
+  limit: number;
+}
 
-const App = () => {
-  const [totalCount, setTotalCount] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [repoList, setRepoList] = useState([]);
-  const [params, setParams] = useState({
+const Home: React.FC = () => {
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [repoList, setRepoList] = useState<Repo[]>([]);
+  const [params, setParams] = useState<Params>({
     current: 1,
-    lang: fetchUrlLang(),
+    lang: useUrlLang(),
     limit: 10,
   });
-  const repoCache = useRef({});
-  const [loadError, setLoadError] = useState("");
+  const repoCache = useRef<{ [key: string]: Repo[] }>({});
+  const [loadError, setLoadError] = useState<string>("");
 
   /**
    * 处理语言变化
    * @param {string} lang - 选择的编程语言
    */
-  const handleLangChange = (lang) => {
-    setLoadError(null);
+  const handleLangChange = (lang: string) => {
+    setLoadError("");
     setParams({
       lang,
       current: 1,
+      limit: 10,
     });
 
     const cachedRepos = repoCache.current?.[lang] || [];
@@ -62,7 +52,7 @@ const App = () => {
 
   useEffect(() => {
     fetchGithubRepos(params.lang, params.current, params.limit);
-  }, []);
+  }, [params.lang, params.current, params.limit]);
 
   /**
    * 获取 GitHub 数据
@@ -70,10 +60,10 @@ const App = () => {
    * @param {number} current - 页码
    * @param {number} limit - 每页条数
    */
-  const fetchGithubRepos = (lang, current, limit) => {
+  const fetchGithubRepos = (lang: string, current: number, limit: number) => {
     setLoading(true);
-    setLoadError(null);
-    const url = buildRequestUrl(lang, current, limit);
+    setLoadError("");
+    const url = useRequestUrl(lang, current, limit);
 
     fetch(url)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
@@ -81,7 +71,6 @@ const App = () => {
         const items = data?.items || [];
         const updatedItems = current === 1 ? items : [...repoList, ...items];
         setRepoList(updatedItems);
-
         repoCache.current[lang] = updatedItems;
 
         setTotalCount(data?.total_count || 0);
@@ -104,6 +93,7 @@ const App = () => {
 
   /**
    * 获取下一页数据
+   * @param {boolean} isReLoad - 是否重新加载
    */
   const loadMore = (isReLoad = false) => {
     if (isReLoad) {
@@ -133,6 +123,4 @@ const App = () => {
   );
 };
 
-const rootElement = document.getElementById("root");
-const reactRoot = createRoot(rootElement);
-reactRoot.render(<App />);
+export default Home;
