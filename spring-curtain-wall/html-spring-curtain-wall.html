@@ -79,17 +79,17 @@
     <script src="./createReadableColor.js"></script>
     <script>
       // 弹幕属性类
-      class BulletCurtainAttribute {
-        static bulletCurtainAttribute = null;
-        static getBulletCurtainAttribute() {
-          if (BulletCurtainAttribute.bulletCurtainAttribute) {
-            return BulletCurtainAttribute.bulletCurtainAttribute;
+      class SpringCurtainAttribute {
+        static springCurtainAttribute = null;
+        static getSpringCurtainAttribute() {
+          if (SpringCurtainAttribute.springCurtainAttribute) {
+            return SpringCurtainAttribute.springCurtainAttribute;
           }
 
-          BulletCurtainAttribute.bulletCurtainAttribute =
-            new BulletCurtainAttribute();
+          SpringCurtainAttribute.springCurtainAttribute =
+            new SpringCurtainAttribute();
 
-          return BulletCurtainAttribute.bulletCurtainAttribute;
+          return SpringCurtainAttribute.springCurtainAttribute;
         }
 
         constructor() {
@@ -171,56 +171,56 @@
         const input = document.getElementById("input");
         const btn = document.getElementById("btn");
         const main = document.querySelector("main");
-        const createBulletId = (key) => `msg@${i}`;
-        const bulletCurtainAttributes =
-          BulletCurtainAttribute.getBulletCurtainAttribute();
+        const createSpringId = (key) => `msg@${i}`;
+        const springCurtainAttributes =
+          SpringCurtainAttribute.getSpringCurtainAttribute();
 
         // 清空弹幕
-        const clearBulletCurtainWall = () => {
+        const clearSpringCurtainWall = () => {
           main.innerHTML = "";
           launched = false;
         };
 
         // 暂停单个弹幕
-        const pausedSingleBullet = (ele) => {
+        const pausedSingleSpring = (ele) => {
           ele.stop();
         };
 
         // 暂停弹幕
-        const pauseBulletCurtainWall = () => {
+        const pauseSpringCurtainWall = () => {
           if (!launched) return;
           main.querySelectorAll("marquee").forEach((marquee) => {
-            pausedSingleBullet(marquee);
+            pausedSingleSpring(marquee);
           });
 
           launched = false;
         };
 
         // 恢复单个弹幕
-        const resumeSingleBullet = (ele) => {
+        const resumeSingleSpring = (ele) => {
           ele.start();
         };
 
         // 恢复暂停的弹幕
-        const resumeBulletCurtainWall = () => {
+        const resumeSpringCurtainWall = () => {
           if (launched) return;
 
           main.querySelectorAll("marquee").forEach((marquee) => {
-            resumeSingleBullet(marquee);
+            resumeSingleSpring(marquee);
           });
 
           launched = true;
         };
 
         // 创建弹幕
-        const createBulletCurtain = (msg, i) => {
+        const createSpringCurtain = (msg, i) => {
           // @NOTE https://developer.mozilla.org/en-US/docs/Web/HTML/Element/marquee
           const marquee = document.createElement("marquee");
           marquee.style.position = "absolute";
           marquee.loop = 1;
           marquee.behavior = "scroll";
           marquee.direction = "left";
-          marquee.scrollAmount = bulletCurtainAttributes.getRandomSpeed();
+          marquee.scrollAmount = springCurtainAttributes.getRandomSpeed();
           let top = Math.random() * main.clientHeight;
           top = top + 36 > main.clientHeight ? top - 36 : top;
           marquee.style.marginTop = top + "px";
@@ -228,12 +228,12 @@
           marquee.style.height = main.clientHeight + "px";
 
           const span = document.createElement("span");
-          span.id = createBulletId(i);
+          span.id = createSpringId(i);
           span.innerText = msg;
-          span.style.color = bulletCurtainAttributes.getRandomColor();
-          span.style.fontWeight = bulletCurtainAttributes.getRandomFontWeight();
-          span.style.fontFamily = bulletCurtainAttributes.getRandomFont();
-          const fontSize = bulletCurtainAttributes.getRandomFontSize();
+          span.style.color = springCurtainAttributes.getRandomColor();
+          span.style.fontWeight = springCurtainAttributes.getRandomFontWeight();
+          span.style.fontFamily = springCurtainAttributes.getRandomFont();
+          const fontSize = springCurtainAttributes.getRandomFontSize();
           span.style.fontSize = fontSize;
 
           marquee.appendChild(span);
@@ -245,19 +245,19 @@
             marquee.stop();
           }
 
-          resumeBulletCurtainWall();
+          resumeSpringCurtainWall();
           input.value = "";
         };
 
         // 触发弹幕
-        const triggerBulletCurtain = (ele) => {
-          pauseBulletCurtainWall();
+        const triggerSpringCurtain = (ele) => {
+          pauseSpringCurtainWall();
           alert(`你点击了弹幕${ele.id}：${ele.innerText}`);
-          resumeBulletCurtainWall();
+          resumeSpringCurtainWall();
         };
 
         // 移除指定位置的弹幕
-        const removeBulletCurtain = () => {
+        const removeSpringCurtain = () => {
           main.querySelectorAll("marquee > span").forEach((span) => {
             const client = span.getBoundingClientRect();
             const { x } = client;
@@ -268,7 +268,7 @@
         };
 
         window.setInterval(() => {
-          removeBulletCurtain();
+          removeSpringCurtain();
         }, 10000);
         main.addEventListener("click", function (e) {
           const { target } = e;
@@ -277,23 +277,23 @@
             target.id &&
             target.id.indexOf("msg@") > -1
           ) {
-            triggerBulletCurtain(target);
+            triggerSpringCurtain(target);
           }
         });
         btn.addEventListener("click", function () {
           const text = input.value;
           i++;
           debugger;
-          createBulletCurtain(text, i);
+          createSpringCurtain(text, i);
         });
         clear.addEventListener("click", function () {
-          clearBulletCurtainWall();
+          clearSpringCurtainWall();
         });
         pause.addEventListener("click", function () {
-          pauseBulletCurtainWall();
+          pauseSpringCurtainWall();
         });
         resume.addEventListener("click", function () {
-          resumeBulletCurtainWall();
+          resumeSpringCurtainWall();
         });
         input.addEventListener("keydown", function (e) {
           if (e.keyCode === 13) {
@@ -308,7 +308,7 @@
             target.id &&
             target.id.indexOf("msg@") > -1
           ) {
-            pausedSingleBullet(target.parentElement);
+            pausedSingleSpring(target.parentElement);
           }
         });
 
@@ -319,7 +319,7 @@
             target.id &&
             target.id.indexOf("msg@") > -1
           ) {
-            resumeSingleBullet(target.parentElement);
+            resumeSingleSpring(target.parentElement);
           }
         });
       };
@@ -339,13 +339,11 @@
           type="button"
           id="pause"
           value="暂停弹幕"
-          style="display: none"
         />
         <input
           type="button"
           id="resume"
           value="恢复弹幕"
-          style="display: none"
         />
       </div>
     </footer>
