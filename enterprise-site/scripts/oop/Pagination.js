@@ -7,8 +7,8 @@ export class Pagination {
    * @param {HTMLInputElement} paginationInput - 页码跳转输入框
    * @param {HTMLElement} newsList - 新闻列表容器
    */
-  constructor(total, paginationSizer, paginationInput, newsList) {
-    this.total = total;
+  constructor(paginationSizer, paginationInput, newsList) {
+    this.total = 100;
     this.paginationSizer = paginationSizer;
     this.paginationInput = paginationInput;
     this.newsList = newsList;
@@ -68,12 +68,15 @@ export class Pagination {
    * @param {number} limit - 每页记录数
    */
   generatePagination(total, page, limit) {
+    if (!total || !page || !limit) {
+      return;
+    }
     const $paginationList = document.querySelector(".pagination__item-list");
     $paginationList.innerHTML = "";
 
     const startPage = 1;
     const endPage = Math.ceil(total / limit);
-    const TOTAL_MIDDLE_NUMBERS = 5;
+    const TOTAL_MIDDLE_NUMBERS = 4;
 
     const $prev = this.createPaginationItem("<");
     $prev.classList.add("pagination__prev");
@@ -146,12 +149,15 @@ export class Pagination {
    */
   loadNews(page, limit) {
     const newsService = NewsService.getNewsService();
-    newsService.getNews(page, limit).then((newsList) => {
+    newsService.getNews(page, limit).then((res) => {
+      const { data: newsList, page, limit, total } = res;
+      this.total = total;
+      this.generatePagination(total, page, limit);
       this.newsList.innerHTML = "";
       newsList.forEach((news, i) => {
         const $newItem = NewsItem.create(
-          `https://loremflickr.com/270/420?lock=${page * limit + i}`,
-          `https://loremflickr.com/90/140?lock=${page * limit + i}`,
+          `https://loremflickr.com/270/420/cat=${page * limit + i}`,
+          `https://loremflickr.com/90/140/cat=${page * limit + i}`,
           news.title,
           news.summary,
           news.id
