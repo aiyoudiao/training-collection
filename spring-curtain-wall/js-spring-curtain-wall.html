@@ -352,7 +352,6 @@
          */
         playSnapshot() {
           this.clearSpringCurtain();
-          console.log("playSnapshot", this.snapshot);
           this.springCurtainList = this.snapshot.map((item) => ({ ...item }));
           this.draw = true;
           this.drawSpringCurtain();

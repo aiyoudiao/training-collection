@@ -225,7 +225,6 @@
         const resumeSingleSpring = (span) => {
           const speed = span.dataset["speed"];
           const transitionFunction = span.dataset["transitionFunction"];
-          console.log(`speed${span.id}: ${speed}`);
           span.style.transition = `left ${speed} ${transitionFunction}`;
           setTimeout(function () {
             span.style.left = "-100%";

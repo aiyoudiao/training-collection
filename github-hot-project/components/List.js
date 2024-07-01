@@ -66,8 +66,6 @@ export function List({ loading, items, loadMore, total, error }) {
     );
   }
 
-  console.log("items.length < total && !error", items.length < total && !error);
-
   return (
     <>
       <div className="flex flex-wrap justify-around mx-2">
