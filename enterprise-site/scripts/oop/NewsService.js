@@ -4,7 +4,8 @@ export class NewsService {
     if (NewsService.instance) {
       return NewsService.instance;
     }
-    this.baseUrl = "https://64006b1463e89b0913ae6339.mockapi.io/api/";
+    this.baseUrl =
+      "https://mock.apipark.cn/m1/4719799-4372142-default/api/v1/news";
     this.newsUrl = new URL("news", this.baseUrl);
 
     NewsService.instance = Object.freeze(this);
@@ -29,14 +30,8 @@ export class NewsService {
    * @returns {Promise<Object[]>}
    */
   getNews(page, limit) {
-    const search = new URLSearchParams([
-      ["page", String(page)],
-      ["limit", String(limit)],
-    ]);
     const url = new URL(this.newsUrl);
-    url.search = search.toString();
-
-    return fetch(url).then((res) => res.json());
+    return fetch(`${url}/${page}/${limit}`).then((res) => res.json());
   }
 
   /**
@@ -45,7 +40,9 @@ export class NewsService {
    * @returns {Promise<Object[]>}
    */
   getRecentNews(num) {
-    return this.getNews(1, num);
+    return this.getNews(1, num).then(({ data }) => {
+      return data;
+    });
   }
 
   /**

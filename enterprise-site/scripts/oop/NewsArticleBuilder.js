@@ -51,10 +51,10 @@ export class NewsArticleBuilder {
    */
   createImage(type) {
     const imgElement = LazyLoadImage.create(
-      `https://loremflickr.com/1200/675?lock=${this.newsId}-${type}`,
-      `https://loremflickr.com/320/180?lock=${this.newsId}-${type}`,
+      `https://loremflickr.com/1200/675/cat=${this.newsId}-${type}`,
+      `https://loremflickr.com/320/180/cat=${this.newsId}-${type}`,
       "新闻插图",
-      `https://loremflickr.com/800/450?lock=${this.newsId}-${type} 800w, https://loremflickr.com/1200/675?lock=${this.newsId}-${type} 1200w`,
+      `https://loremflickr.com/800/450/cat=${this.newsId}-${type} 800w, https://loremflickr.com/1200/675/cat=${this.newsId}-${type} 1200w`,
       "100vw"
     );
 

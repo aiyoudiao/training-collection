@@ -101,12 +101,12 @@
         </div>
 
         <ul class="news__list overflow-hidden -mx-2 p-4 grid lg:grid-cols-4 md:grid-cols-3  grid-cols-2 md:-mx-4">
-          <div class="news__empty text-center">暂无数据</div>
+          <li class="news__empty">暂无数据</li>
         </ul>
 
         <div class="pagination mb-14">
           <div class="border inline-block text-sm pl-2 rounded">
-            <select class="hidden md:block pagination__sizer">
+            <select class="pagination__sizer">
               <option value="8">8条/页</option>
               <option value="12">12条/页</option>
               <option value="24">24条/页</option>
@@ -128,18 +128,20 @@
             <li class="pagination__item">10</li>
             <li class="pagination__item pagination__next">&gt;</li>
           </ul>
-          <div class="hidden md:block pagination__jumper">
+          <div class="pagination__jumper">
             前往
-            <div class="border inline-block text-sm pl-2 rounded mx-2">
+            <div class="border inline-block text-sm rounded mx-2">
               <input
-                class="pagination__jumper-input border-none w-10 h-8 rounded  text-center"
-                type="number"
-                min="1"
-                value="2"
+                class="pagination__jumper-input border-none w-12 h-8 rounded  text-center"
+                type="text"
+                value=""
               />
             </div>
             页
           </div>
+          <button id="page-jumper-button" class="bg-[#ff350d] text-sm text-white px-3 py-1 rounded ml-2">
+            跳转
+          </button>
         </div>
       </section>
     </main>

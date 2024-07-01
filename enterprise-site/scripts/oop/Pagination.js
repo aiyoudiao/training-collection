@@ -7,10 +7,16 @@ export class Pagination {
    * @param {HTMLInputElement} paginationInput - 页码跳转输入框
    * @param {HTMLElement} newsList - 新闻列表容器
    */
-  constructor(total, paginationSizer, paginationInput, newsList) {
-    this.total = total;
+  constructor(
+    paginationSizer,
+    paginationInput,
+    paginationJumperButton,
+    newsList
+  ) {
+    this.total = 100;
     this.paginationSizer = paginationSizer;
     this.paginationInput = paginationInput;
+    this.paginationJumperButton = paginationJumperButton;
     this.newsList = newsList;
     this.url = new URL(window.location.href);
     this.page = parseInt(this.url.searchParams.get("page")) || 1;
@@ -53,11 +59,37 @@ export class Pagination {
    * 添加分页跳转输入框的事件监听
    */
   addPaginationInputEvent() {
-    this.paginationInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && e.target.value !== "") {
-        this.url.searchParams.set("page", e.target.value);
+    // 验证页码是否为正整数
+    const isPositiveInteger = (value) => {
+      const number = Number(value);
+      return Number.isInteger(number) && number > 0;
+    };
+
+    const jumperPage = (value) => {
+      if (
+        value !== "" &&
+        isPositiveInteger(value) &&
+        value <= Math.ceil(this.total / this.limit) &&
+        value > 0
+      ) {
+        this.url.searchParams.set("page", value);
         window.location.href = this.url.toString();
+        return;
       }
+
+      this.paginationInput.select();
+      alert("请输入有效的页码");
+    };
+
+    this.paginationInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        jumperPage(e.target.value);
+      }
+    });
+
+    this.paginationJumperButton.addEventListener("click", () => {
+      const value = Number(this.paginationInput.value);
+      jumperPage(value);
     });
   }
 
@@ -68,12 +100,15 @@ export class Pagination {
    * @param {number} limit - 每页记录数
    */
   generatePagination(total, page, limit) {
+    if (!total || !page || !limit) {
+      return;
+    }
     const $paginationList = document.querySelector(".pagination__item-list");
     $paginationList.innerHTML = "";
 
     const startPage = 1;
     const endPage = Math.ceil(total / limit);
-    const TOTAL_MIDDLE_NUMBERS = 5;
+    const TOTAL_MIDDLE_NUMBERS = 4;
 
     const $prev = this.createPaginationItem("<");
     $prev.classList.add("pagination__prev");
@@ -146,12 +181,23 @@ export class Pagination {
    */
   loadNews(page, limit) {
     const newsService = NewsService.getNewsService();
-    newsService.getNews(page, limit).then((newsList) => {
+    newsService.getNews(page, limit).then((res) => {
+      const {
+        code,
+        data: newsList,
+        links: { page, limit, total },
+      } = res;
+      if (code !== 200) {
+        return;
+      }
+
+      this.total = total;
+      this.generatePagination(total, page, limit);
       this.newsList.innerHTML = "";
       newsList.forEach((news, i) => {
         const $newItem = NewsItem.create(
-          `https://loremflickr.com/270/420?lock=${page * limit + i}`,
-          `https://loremflickr.com/90/140?lock=${page * limit + i}`,
+          `https://loremflickr.com/270/420/cat=${page * limit + i}`,
+          `https://loremflickr.com/90/140/cat=${page * limit + i}`,
           news.title,
           news.summary,
           news.id

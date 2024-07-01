@@ -26,8 +26,6 @@
 
 .hover-scale:hover img {
   transform: scale(1.1);
-  background-color: red;
-  /* transform: scale3d(1.1); */
 }
 
 @keyframes slidein-left {
