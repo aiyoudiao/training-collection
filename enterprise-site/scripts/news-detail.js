@@ -29,6 +29,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   new Drawer();
 });
-
-// 初始化并构建新闻文章
-document.addEventListener("DOMContentLoaded", () => {});
