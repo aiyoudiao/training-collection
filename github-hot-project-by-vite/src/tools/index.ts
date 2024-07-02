@@ -2,7 +2,7 @@
  * 获取 URL 中的语言参数
  * @returns {string} - 语言参数或 "All"（如果未指定）
  */
-export const useUrlLang = (): string =>
+export const fetchUrlLang = (): string =>
   new URLSearchParams(window.location.search).get("language") || "All";
 
 /**
@@ -12,7 +12,7 @@ export const useUrlLang = (): string =>
  * @param {number} [limit=10] - 每页的条数
  * @returns {string} - 构建的请求 URL
  */
-export const useRequestUrl = (
+export const fetchRequestUrl = (
   lang: string = "All",
   current: number = 1,
   limit: number = 10
@@ -29,7 +29,7 @@ export const useRequestUrl = (
  * 获取 URL 中的两个用户参数
  * @returns {Object} - 包含两个 GitHub 用户名的对象
  */
-export const useTwoUserName = (): {
+export const fetchTwoUserName = (): {
   githubUserOne: string;
   githubUserTwo: string;
 } => {

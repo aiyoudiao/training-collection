@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, lazy, memo } from "react";
+import { useState, useEffect, Suspense, lazy, memo } from "react";
 import {
   BrowserRouter,
   Outlet,
@@ -67,10 +67,6 @@ const Layout: React.FC = memo(() => {
       <main className="h-full flex-auto overflow-y-auto scrollbar-none">
         <Outlet />
       </main>
-
-      {/* <main className="h-full flex-auto overflow-y-auto">
-        
-      </main> */}
       <footer className="py-4 text-center text-primary-dark">
         群贤毕至，巅峰对决，谁与争锋？
       </footer>

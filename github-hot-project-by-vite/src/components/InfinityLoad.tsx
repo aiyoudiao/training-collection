@@ -1,4 +1,4 @@
-import React, { useRef, RefObject } from 'react';
+import { useRef } from 'react';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { Loading } from './Loading';
 

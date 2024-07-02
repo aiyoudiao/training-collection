@@ -1,32 +1,16 @@
-import React, { useEffect, useState, memo } from "react";
+import { useEffect, useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/Loading";
 import { UserCard } from "@/components/UserCard";
-import { useTwoUserName } from "@/hooks/useUtils";
+import { fetchTwoUserName } from "@/tools";
+import { GitHubUser, fetchPlayer } from "@/api";
 
 // 定义 GitHub 用户的数据类型
-interface GitHubUser {
-  login: string;
-  id: number;
-  avatar_url: string;
-  html_url: string;
-  public_repos: number;
-  [key: string]: any; // 其他未指定的字段
-}
 
-// 从 GitHub API 获取用户数据
-async function fetchPlayer(username: string): Promise<GitHubUser> {
-  const response = await fetch(`https://api.github.com/users/${username}`);
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "发生错误");
-  }
-  return response.json();
-}
 
 const Result: React.FC = () => {
   const navigate = useNavigate();
-  const { githubUserOne, githubUserTwo } = useTwoUserName();
+  const { githubUserOne, githubUserTwo } = fetchTwoUserName();
   const [playerOneData, setPlayerOneData] = useState<GitHubUser | null>(null);
   const [playerTwoData, setPlayerTwoData] = useState<GitHubUser | null>(null);
 
@@ -75,7 +59,7 @@ const Result: React.FC = () => {
   if (!playerOneData || !playerTwoData) {
     return (
       <div className="py-4 h-full flex flex-col items-center">
-        <Loading load={true} />
+        <Loading />
       </div>
     );
   }
@@ -96,10 +80,11 @@ const Result: React.FC = () => {
     <div className="py-4 h-full flex flex-col items-center bg-green-50">
       <div className="flex w-full mb-10">
         <div className="w-1/2">
-          <UserCard title={titleOne} data={playerOneData} />
+
+          <UserCard title={titleOne} data={playerOneData as any} />
         </div>
         <div className="w-1/2">
-          <UserCard title={titleTwo} data={playerTwoData} />
+          <UserCard title={titleTwo} data={playerTwoData as any} />
         </div>
       </div>
       <button onClick={handleReset} className="bg-green-100 hover:bg-green-200 text-green-800 font-semibold py-2 px-4 border border-green-400 rounded shadow">

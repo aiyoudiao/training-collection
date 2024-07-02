@@ -4,8 +4,7 @@ import { Guide } from "@/components/Guide";
 import { BattleUser } from "@/components/BattleUser";
 
 const Battle: React.FC = () => {
-  
-  console.log('================================================================ Battle')
+
   const navigate = useNavigate();
   const [githubUserOne, setGithubUserOne] = useState<string>('');
   const [githubUserTwo, setGithubUserTwo] = useState<string>('');

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { Icon } from "./Icon";
 
 export function BattleUser({
@@ -42,16 +41,24 @@ export function BattleUser({
     }
 
     setIsLoading(true);
-    axios
-      .get(`https://api.github.com/users/${username}`)
-      .then((data) => {
-        setIsChecked(true);
-        onSubmitUser(username, data.data);
-      })
-      .catch((error) => {
-        setError(error?.response?.data?.message || "请求失败");
-      })
-      .finally(() => setIsLoading(false));
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`https://api.github.com/users/${username}`);
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+      setIsChecked(true);
+      onSubmitUser(username, data);
+    } catch (error) {
+      setError(error?.toString() || "请求失败");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

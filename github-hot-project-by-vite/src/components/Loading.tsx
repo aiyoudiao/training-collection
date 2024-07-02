@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 /**
  * 加载组件

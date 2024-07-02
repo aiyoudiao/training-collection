@@ -1,8 +1,8 @@
-import React, { useRef, useState, useEffect, memo } from "react";
+import { useRef, useState, useEffect, memo } from "react";
 import { Nav } from "@/components/Nav";
 import { List } from "@/components/List";
 import { Modal } from "@/components/Modal";
-import { useUrlLang, useRequestUrl } from "@/hooks/useUtils";
+import { fetchUrlLang, fetchRequestUrl } from "@/tools";
 
 interface Repo {
   id: number;
@@ -22,7 +22,7 @@ const Home: React.FC = () => {
   const [repoList, setRepoList] = useState<Repo[]>([]);
   const [params, setParams] = useState<Params>({
     current: 1,
-    lang: useUrlLang(),
+    lang: fetchUrlLang(),
     limit: 10,
   });
   const repoCache = useRef<{ [key: string]: Repo[] }>({});
@@ -65,7 +65,7 @@ const Home: React.FC = () => {
   const fetchGithubRepos = (lang: string, current: number, limit: number) => {
     setLoading(true);
     setLoadError("");
-    const url = useRequestUrl(lang, current, limit);
+    const url = fetchRequestUrl(lang, current, limit);
 
     fetch(url)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
@@ -78,7 +78,7 @@ const Home: React.FC = () => {
         setTotalCount(data?.total_count || 0);
       })
       .catch((err) => {
-        err.json().then((error) => {
+        err.json().then((error: { message: any; }) => {
           setLoadError(error?.message || "Error");
         });
       })
@@ -117,7 +117,7 @@ const Home: React.FC = () => {
       <List
         error={loadError}
         loading={loading}
-        items={repoList}
+        items={repoList as any}
         total={totalCount}
         loadMore={loadMore}
       />

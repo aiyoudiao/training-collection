@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { LazyLoad } from "./LazyLoad";
 
 // 定义 Avatar 组件的属性类型
