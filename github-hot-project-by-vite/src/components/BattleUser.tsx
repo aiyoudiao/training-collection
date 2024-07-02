@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Icon } from "./Icon";
+import { Avatar } from "./Avatar";
+import { fetchPlayer, GitHubUser } from '@/api'
 
 export function BattleUser({
   title,
   onSubmitUser,
 }: {
   title: string;
-  onSubmitUser: (username: string, data: any) => void;
+  onSubmitUser: (username: string, data: GitHubUser) => void;
 }) {
   const [username, setUsername] = useState<string>("");
+  const [user, setUser] = useState<GitHubUser>({});
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,13 +48,8 @@ export function BattleUser({
     setError(null);
 
     try {
-      const response = await fetch(`https://api.github.com/users/${username}`);
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data = await response.json();
+      const data = await fetchPlayer(username);
+      setUser(data);
       setIsChecked(true);
       onSubmitUser(username, data);
     } catch (error) {
@@ -72,10 +70,10 @@ export function BattleUser({
             onKeyDown={handleKeyDown}
             onChange={handleChangeUsername}
             className="block w-full rounded-md border-0 py-1.5 pl-4 pr-6 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-500 sm:text-sm sm:leading-6"
-            placeholder="Github 用户名"
+            placeholder="输入 Github 用户名，获取用户信息"
           ></input>
           {isChecked && (
-            <div className="absolute right-2 top-2.5 text-green-600">
+            <div className="absolute right-2 top-1.5 text-green-600">
               <Icon className="fa-solid fa-check text-green-600"></Icon>
             </div>
           )}
@@ -84,16 +82,24 @@ export function BattleUser({
           type="button"
           className="ml-2 disabled:cursor-not-allowed disabled:opacity-50 bg-green-100 inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-green-200"
           onClick={handleSubmit}
-          disabled={isDisabled}
+          disabled={isDisabled || isChecked}
         >
           {isLoading ? (
             <i className="fa-solid fa-spinner text-green-600 text-2xl  animate-spin"></i>
+          ) : isChecked ? (
+            <i className="fa-solid fa-ban text-green-700 text-2xl"></i>
           ) : (
             <i className="fa-solid fa-rocket text-green-700 text-2xl"></i>
           )}
         </button>
       </div>
-      <div className="mt-1 text-xs text-red-500 h-[16px]">{error}</div>
+      {error ? (
+        <div className="mt-1 text-xs text-red-500 h-[16px]">{error}</div>
+      ) : isChecked && (
+        <div className="mt-2">
+          <Avatar url={`${user?.avatar_url}`} />
+        </div>
+      )}
     </div>
   );
 }
