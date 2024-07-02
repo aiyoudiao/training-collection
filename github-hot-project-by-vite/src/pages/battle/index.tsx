@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Guide } from "@/components/Guide";
 import { BattleUser } from "@/components/BattleUser";
 
-export default function Battle() {
+const Battle: React.FC = () => {
+  
+  console.log('================================================================ Battle')
   const navigate = useNavigate();
   const [githubUserOne, setGithubUserOne] = useState<string>('');
   const [githubUserTwo, setGithubUserTwo] = useState<string>('');
@@ -35,3 +37,5 @@ export default function Battle() {
     </div>
   );
 }
+
+export default memo(Battle);

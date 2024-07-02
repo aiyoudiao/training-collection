@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, memo } from "react";
 import { Nav } from "@/components/Nav";
 import { List } from "@/components/List";
 import { Modal } from "@/components/Modal";
@@ -34,11 +34,12 @@ const Home: React.FC = () => {
    */
   const handleLangChange = (lang: string) => {
     setLoadError("");
-    setParams({
+    const params = {
       lang,
       current: 1,
       limit: 10,
-    });
+    };
+    setParams(params);
 
     const cachedRepos = repoCache.current?.[lang] || [];
     if (cachedRepos.length > 0) {
@@ -47,12 +48,13 @@ const Home: React.FC = () => {
       setRepoList([]);
       fetchGithubRepos(lang, 1, 10);
     }
+
     window.history.replaceState({}, "", `?language=${lang}`);
   };
 
   useEffect(() => {
     fetchGithubRepos(params.lang, params.current, params.limit);
-  }, [params.lang, params.current, params.limit]);
+  }, []);
 
   /**
    * 获取 GitHub 数据
@@ -123,4 +125,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default memo(Home);

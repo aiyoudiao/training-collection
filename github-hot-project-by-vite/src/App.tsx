@@ -1,24 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy, memo } from "react";
 import {
   BrowserRouter,
   Outlet,
-  Route,
-  Routes,
   useLocation,
   useNavigate,
+  useRoutes,
 } from "react-router-dom";
 
-const Home = React.lazy(
-  () => import(/* webpackChunkName: 'home-page' */ "@/pages/home/index")
-);
-const Battle = React.lazy(
-  () => import(/* webpackChunkName: 'battle-page' */ "@/pages/battle/index")
-);
-const Result = React.lazy(
-  () => import(/* webpackChunkName: 'result-page' */ "@/pages/result/index")
-);
+// 动态导入组件
+const Home = lazy(() => import("@/pages/home/index"));
+const Battle = lazy(() => import("@/pages/battle/index"));
+const Result = lazy(() => import("@/pages/result/index"));
 
-const Layout: React.FC = () => {
+const Layout: React.FC = memo(() => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [headerText, setHeaderText] = useState("Github 热门项目");
@@ -70,32 +64,44 @@ const Layout: React.FC = () => {
           </button>
         </nav>
       </header>
-      <main className="h-full flex-auto overflow-y-auto">
+      <main className="h-full flex-auto overflow-y-auto scrollbar-none">
         <Outlet />
       </main>
+
+      {/* <main className="h-full flex-auto overflow-y-auto">
+        
+      </main> */}
       <footer className="py-4 text-center text-primary-dark">
         群贤毕至，巅峰对决，谁与争锋？
       </footer>
     </div>
   );
+});
+
+const AppRoutes = () => {
+  return useRoutes([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        { path: "/", element: <Home /> },
+        { path: "battle", element: <Battle /> },
+        { path: "result", element: <Result /> },
+      ],
+    },
+  ]);
 };
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter forceRefresh>
-      <React.Suspense
+    <BrowserRouter>
+      <Suspense
         fallback={<div className="text-center text-primary">加载中...</div>}
       >
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/battle" element={<Battle />} />
-            <Route path="/result" element={<Result />} />
-          </Route>
-        </Routes>
-      </React.Suspense>
+        <AppRoutes />
+      </Suspense>
     </BrowserRouter>
   );
 };
 
-export default App;
+export default memo(App);

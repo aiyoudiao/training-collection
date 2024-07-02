@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "@/components/Loading";
 import { UserCard } from "@/components/UserCard";
@@ -24,7 +24,7 @@ async function fetchPlayer(username: string): Promise<GitHubUser> {
   return response.json();
 }
 
-export default function Result() {
+const Result: React.FC = () => {
   const navigate = useNavigate();
   const { githubUserOne, githubUserTwo } = useTwoUserName();
   const [playerOneData, setPlayerOneData] = useState<GitHubUser | null>(null);
@@ -108,3 +108,5 @@ export default function Result() {
     </div>
   );
 }
+
+export default memo(Result);
