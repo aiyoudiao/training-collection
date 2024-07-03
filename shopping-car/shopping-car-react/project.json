@@ -1,0 +1,44 @@
+{
+  "name": "shopping-car-react",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "./src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/rspack:rspack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "web",
+        "outputPath": "dist/shopping-car-react",
+        "main": "src/main.tsx",
+        "tsConfig": "tsconfig.app.json",
+        "rspackConfig": "rspack.config.js",
+        "assets": ["src/favicon.ico", "src/assets"]
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production",
+          "optimization": true,
+          "sourceMap": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/rspack:dev-server",
+      "options": {
+        "buildTarget": "shopping-car-react:build:development"
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "buildTarget": "shopping-car-react:build:production"
+        }
+      }
+    }
+  }
+}
