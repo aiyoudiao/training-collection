@@ -80,7 +80,6 @@ const Result: React.FC = () => {
     <div className="py-4 h-full flex flex-col items-center bg-green-50">
       <div className="flex w-full mb-10">
         <div className="w-1/2">
-
           <UserCard title={titleOne} data={playerOneData as any} />
         </div>
         <div className="w-1/2">

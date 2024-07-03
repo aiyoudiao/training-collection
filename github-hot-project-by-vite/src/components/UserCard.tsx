@@ -26,12 +26,12 @@ interface UserCardProps {
  */
 export const UserCard: React.FC<UserCardProps> = ({ title, data }) => {
   return (
-    <div className="flex-1 p-2">
-      <div className="bg-green-100 py-4 max-w-[200px] mx-auto rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+    <div className="flex-1 p-2 transition-transform transform hover:scale-105 ">
+      <div className="bg-green-100 py-4 max-w-80 mx-auto rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
         <div className="px-4 mb-2 text-center text-green-800 font-bold">
           {title}
         </div>
-        <div className="mb-4 transform hover:scale-105 transition-transform duration-300">
+        <div className="mb-4">
           <Avatar url={data.avatar_url} />
         </div>
 
@@ -51,25 +51,25 @@ export const UserCard: React.FC<UserCardProps> = ({ title, data }) => {
             </a>
           </div>
           <div className="flex items-center mb-2">
-            <Icon className="fa-solid fa-location-arrow text-green-800"></Icon>
+            <Icon iconName="fa-location-arrow" className=" text-blue-500"></Icon>
             <div className="ml-2 flex-auto text-xs text-green-700 truncate">
               {data.location}
             </div>
           </div>
           <div className="flex items-center mb-2">
-            <Icon className="fa-solid fa-users text-green-800"></Icon>
+            <Icon iconName="fa-users" className=" text-green-500"></Icon>
             <div className="ml-2 flex-auto text-xs text-green-700 truncate">
               {data.followers}
             </div>
           </div>
           <div className="flex items-center mb-2">
-            <Icon className="fa-solid fa-user-plus text-green-800"></Icon>
+            <Icon iconName="fa-user-plus" className=" text-orange-600"></Icon>
             <div className="ml-2 flex-auto text-xs text-green-700 truncate">
               {data.following}
             </div>
           </div>
           <div className="flex items-center">
-            <Icon className="fa-solid fa-code text-green-800"></Icon>
+            <Icon iconName="fa-code" className=" text-black"></Icon>
             <div className="ml-2 flex-auto text-xs text-green-700 truncate">
               {data.public_repos}
             </div>

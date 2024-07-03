@@ -11,7 +11,7 @@ export function BattleUser({
   onSubmitUser: (username: string, data: GitHubUser) => void;
 }) {
   const [username, setUsername] = useState<string>("");
-  const [user, setUser] = useState<GitHubUser>({});
+  const [user, setUser] = useState<GitHubUser>({} as GitHubUser);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -74,7 +74,7 @@ export function BattleUser({
           ></input>
           {isChecked && (
             <div className="absolute right-2 top-1.5 text-green-600">
-              <Icon className="fa-solid fa-check text-green-600"></Icon>
+              <Icon iconName="fa-check" className=" text-green-600"></Icon>
             </div>
           )}
         </div>
@@ -85,11 +85,11 @@ export function BattleUser({
           disabled={isDisabled || isChecked}
         >
           {isLoading ? (
-            <i className="fa-solid fa-spinner text-green-600 text-2xl  animate-spin"></i>
+            <Icon iconName="fa-spinner" className=" text-green-600 text-2xl  animate-spin"></Icon>
           ) : isChecked ? (
-            <i className="fa-solid fa-ban text-green-700 text-2xl"></i>
+            <Icon iconName="fa-ban" className=" text-green-700 text-2xl"></Icon>
           ) : (
-            <i className="fa-solid fa-rocket text-green-700 text-2xl"></i>
+            <Icon iconName="fa-rocket" className=" text-green-700 text-2xl"></Icon>
           )}
         </button>
       </div>
