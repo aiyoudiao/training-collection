@@ -1,6 +1,6 @@
 import { defineConfig, type PluginOption } from "vite";
-import { terser } from "@rollup/plugin-terser";
-import { eslint } from "@rollup/plugin-eslint";
+// import terser from "@rollup/plugin-terser";
+// import eslint from "@rollup/plugin-eslint";
 import react from "@vitejs/plugin-react-swc";
 import { VitePWA } from "vite-plugin-pwa";
 import { resolve } from "path";
@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
       react(), // React插件
       // windiCSS(), // tailwind css 插件
       // legacy({ targets: ["defaults", "not IE 11"] }), // 兼容老版本浏览器
-      viteCompression({ algorithm: "gzip" }), // 启用gzip压缩
+      viteCompression({ algorithm: "gzip" }) as PluginOption, // 启用gzip压缩
       VitePWA({
         // PWA插件
         manifest: {
@@ -64,7 +64,7 @@ export default defineConfig(({ mode }) => {
         //     // 添加更多的 runtimeCaching 配置项...
         //   ],
         // },
-      }),
+      }) as PluginOption,
       visualizer({
         // 构建结果分析插件
         filename: "./dist/report.html",
@@ -101,14 +101,14 @@ export default defineConfig(({ mode }) => {
             }
           },
         },
-        plugins: [
-          eslint(),
-          terser({
-            compress: {
-              drop_console: true, // 这会删除 console.* 函数的调用
-            },
-          }),
-        ],
+        // plugins: [
+        //   // eslint(),
+        //   terser({
+        //     compress: {
+        //       drop_console: true, // 这会删除 console.* 函数的调用
+        //     },
+        //   }),
+        // ],
       },
     },
     // optimizeDeps: {
