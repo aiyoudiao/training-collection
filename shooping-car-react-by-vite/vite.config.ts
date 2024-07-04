@@ -79,7 +79,7 @@ export default defineConfig(({ mode }) => {
 
     build: {
       sourcemap: isProduction ? false : isDevelopment && 'inline', // source map配置
-      outDir: 'dist',
+      outDir: './dist',
       emptyOutDir: true,
       reportCompressedSize: true,
       commonjsOptions: {
@@ -122,7 +122,7 @@ export default defineConfig(({ mode }) => {
       assetsDir: 'assets', // 指定生成静态文件目录
       assetsInlineLimit: '4096', // 小于此阈值的导入或引用资源将内联为 base64 编码
       cssCodeSplit: true, // 启用 CSS 代码拆分
-      target: ['modules'], // 设置最终构建的浏览器兼容目标
+      target: ['esnext'], // 设置最终构建的浏览器兼容目标
       polyfillModulePreload: true, // 是否自动注入 module preload 的 polyfill
     },
 
