@@ -1,9 +1,19 @@
-import { App, Button, Card, Skeleton } from "antd";
-import { FC, useState } from "react";
+import {
+  Badge,
+  Button,
+  Card,
+  ConfigProvider,
+  Segmented,
+  SegmentedProps,
+  Skeleton,
+  message,
+} from 'antd';
+import { FC, RefAttributes, useState } from 'react';
 
-import { ProductDTO } from "../shared/interface";
-import { useAppDispatch, useAppSelector }from "../redux";
-import { addProduct } from '../redux/slice/cartSlice'
+import { ProductDTO } from '../shared/interface';
+import { $exec } from '../redux';
+import { addProduct } from '../redux/slice/cartSlice';
+import { BigMath } from '../shared/utils';
 
 interface ProductProps {
   data: ProductDTO;
@@ -19,110 +29,149 @@ const ProductImage: FC<ProductImageProps> = ({ sku }) => {
 
   return (
     <div
-      className="relative pt-[145.45%] rounded-t-lg"
+      className="relative h-64 rounded-t-lg"
       style={{ backgroundImage: `url(${image1})` }}
-      onMouseEnter={(e) => (e.currentTarget.style.backgroundImage = `url(${image2})`)}
-      onMouseLeave={(e) => (e.currentTarget.style.backgroundImage = `url(${image1})`)}
+      onMouseEnter={(e) =>
+        (e.currentTarget.style.backgroundImage = `url(${image2})`)
+      }
+      onMouseLeave={(e) =>
+        (e.currentTarget.style.backgroundImage = `url(${image1})`)
+      }
     ></div>
   );
 };
 
-const LoadingImage = () => (
-  <Skeleton.Image className="!w-full min-h-64 !h-full rounded-t-lg" />
-);
-
-const FreeShipping = () => (
-  <div className="absolute top-0 right-0 p-1 text-white bg-black rounded-tr-lg text-xs">
-    包邮
-  </div>
-);
-
-const Sizes = ({ children }: { children: React.ReactNode }) => (
-  <div className="absolute bottom-2 left-2 flex">{children}</div>
-);
-
-const Size = ({ active, onClick, children }: { active?: boolean, onClick: () => void, children: React.ReactNode }) => (
-  <button
-    className={`flex items-center justify-center w-7 h-7 rounded-full m-0.5 text-white text-xs ${
-      active ? "bg-blue-600" : "bg-black"
-    }`}
-    onClick={onClick}
-  >
-    {children}
-  </button>
-);
-
 export const ProductLoading = () => {
   return (
-    <Card data-testid="loading-card" cover={<LoadingImage />}>
+    <Card
+      data-test-id="loading-card"
+      cover={
+        <Skeleton.Image
+          active
+          className="!w-full min-h-64 !h-full rounded-t-lg"
+        />
+      }
+    >
       <Skeleton active />
     </Card>
   );
 };
 
+export const LightSegmented = (
+  prpos: JSX.IntrinsicAttributes &
+    SegmentedProps &
+    RefAttributes<HTMLLegendElement | HTMLAnchorElement>
+) => {
+  return (
+    <ConfigProvider
+      theme={{
+        components: {
+          Segmented: {
+            itemActiveBg: 'rgb(30 64 175)', // 激活状态背景色
+            itemColor: '#1890ff', // 文字颜色
+            itemHoverBg: 'rgb(37 99 235)', // 悬停状态背景色
+            itemHoverColor: '#1890ff', // 悬停状态文字颜色
+            itemSelectedBg: 'rgb(29 78 216)', // 选中状态背景色
+            itemSelectedColor: '#fff', // 选中状态文字颜色
+            trackBg: '#000', // 背景轨道颜色
+            trackPadding: '0', // 轨道内边距
+          },
+        },
+      }}
+    >
+      <Segmented {...prpos}></Segmented>
+    </ConfigProvider>
+  );
+};
+
 export const Product: FC<ProductProps> = (props) => {
-  const { message } = App.useApp();
   const [currentSize, setSize] = useState(props.data.availableSizes[0]);
-  const dispatch = useAppDispatch();
 
   const { data } = props;
 
-  const [integer, fractional] = String(data.price.toFixed(2)).split(".");
+  const [integer, fractional] = String(data.price.toFixed(2)).split('.');
 
   return (
     <Card
       className="relative"
       cover={
-        <ProductImage sku={data.sku}>
-          {data.isFreeShipping && (
-            <FreeShipping data-testid="freeshipping" />
-          )}
-          {data.availableSizes.length > 0 && (
-            <Sizes>
-              {data.availableSizes.map((size) => (
-                <Size
-                  key={size}
-                  active={currentSize === size}
-                  onClick={() => {
-                    setSize(size);
-                  }}
-                >
-                  {size}
-                </Size>
-              ))}
-            </Sizes>
-          )}
-        </ProductImage>
+        data.isFreeShipping ? (
+          <Badge.Ribbon
+            placement="end"
+            text="包邮"
+            data-test-id="free-shipping"
+          >
+            <ProductImage sku={data.sku}></ProductImage>
+          </Badge.Ribbon>
+        ) : (
+          <ProductImage sku={data.sku}></ProductImage>
+        )
       }
     >
       <div className="flex flex-col items-center">
-        <p className="h-12 overflow-hidden">{data.title}</p>
-        <p>
-          <span className="text-xs">{data.currencyFormat}</span>
+        {data.availableSizes.length > 0 && (
+          <div className="flex justify-end w-full -mr-12">
+            <LightSegmented
+              className="-mt-6 mb-3"
+              block
+              size="small"
+              options={data.availableSizes.map((size) => {
+                return {
+                  label: (
+                    <div
+                      className={`flex items-center justify-center w-5 h-7 rounded-full m-0.5 text-white text-xs`}
+                    >
+                      {size} 码
+                    </div>
+                  ),
+                  value: size,
+                };
+              })}
+              value={currentSize}
+              onChange={(value) => {
+                setSize(value);
+              }}
+            />
+          </div>
+        )}
+        <p
+          className="min-h-14 text-lg font-semibold line-clamp-2"
+          title={data.title}
+        >
+          {data.title}
+        </p>
+        <p className="mb-1">
+          <span className="text-2xl">{data.currencyFormat}</span>
           <span className="text-2xl font-bold">{integer}</span>
-          <span className="text-base">.{fractional}</span>
+          <span className="text-xl">.{fractional}</span>
         </p>
         {data.installments > 0 ? (
-          <p data-testid="installments" className="text-gray-500 text-sm">
-            或分 {data.installments} 期，每期
-            <span className="font-bold">
-              ${(data.price / data.installments).toFixed(2)}
+          <p data-test-id="installments" className="text-gray-500 text-sm">
+            或分{' '}
+            <span className="font-bold text-orange-500">
+              {data.installments}
+            </span>{' '}
+            期，每期
+            <span className="font-bold text-green-500">
+              {' '}
+              ${BigMath.divide(data.price, data.installments)}
             </span>
           </p>
         ) : (
-          <div className="text-sm whitespace-pre"> </div>
+          <div className="text-sm text-gray-500">暂不支持分期</div>
         )}
         <Button
-          data-testid="add-product"
+          data-test-id="add-product"
           className="mt-2"
           type="primary"
-          ghost
           block
           onClick={() => {
-            debugger
-
-            dispatch(addProduct({ product: data, size: currentSize}));
-            message.success(`「${data.title} - ${currentSize}」已添加到购物车`);
+            $exec(addProduct({ product: data, size: currentSize }));
+            message.success({
+              content: `客官，您已成功将 ${data.title} - [${currentSize}] 添加到购物车中。`,
+              maxCount: 2,
+              duration: 1,
+            });
           }}
         >
           添加到购物车

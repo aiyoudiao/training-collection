@@ -1,4 +1,4 @@
-// src/store/cartSlice.ts
+// 切片
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ProductDTO } from '../../shared/interface';
 
@@ -34,7 +34,6 @@ const cartSlice = createSlice({
   reducers: {
     // 显示/隐藏购物车
     showCart(state, action: PayloadAction<boolean>) {
-      debugger;
       state.show = action.payload;
     },
     // 添加商品到购物车
@@ -46,7 +45,6 @@ const cartSlice = createSlice({
         amount?: number;
       }>
     ) {
-      debugger;
       const { product, size, amount = 1 } = action.payload;
       const productInCart = state.products[product.sku]?.[size];
 

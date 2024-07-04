@@ -1,12 +1,11 @@
-// src/selectors.ts
+// 选择器
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '../store';
+import { RootState } from '..';
 
 // 选择购物车中总的商品数量
-export const selectTotalProducts = createSelector(
+export const totalProductsSelector = createSelector(
   (state: RootState) => state?.cart?.products,
   (products = {}) => {
-    debugger;
     return Object.values(products).reduce(
       (acc, cur) =>
         acc + Object.values(cur).reduce((acc, cur) => acc + cur.amount, 0),
@@ -16,7 +15,7 @@ export const selectTotalProducts = createSelector(
 );
 
 // 选择购物车中的小计金额
-export const selectSubtotal = createSelector(
+export const subtotalSelector = createSelector(
   (state: RootState) => state?.cart?.products,
   (products = {}) =>
     Object.values(products)?.reduce(
@@ -31,7 +30,7 @@ export const selectSubtotal = createSelector(
 );
 
 // 选择最大分期数
-export const selectMaxInstallments = createSelector(
+export const maxInstallmentsSelector = createSelector(
   (state: RootState) => state?.cart?.products,
   (products = {}) =>
     Math.max(

@@ -1,5 +1,4 @@
 import { ProductDTO } from '../interface';
-import { randomRange } from '../utils';
 
 export interface Sort<T> {
   property: keyof T;
@@ -69,19 +68,9 @@ export const getProducts = async (
       });
     }
 
-    // 模拟延迟和错误
-    return new Promise<ProductDTO[]>((resolve, reject) => {
-      setTimeout(() => {
-        // 随机模拟错误
-        if (Math.random() > 0.5) {
-          reject(new Error('未知错误'));
-        } else {
-          resolve(products);
-        }
-      }, randomRange(1000, 2000));
-    });
+    return products;
   } catch (error) {
-    console.log(`Error: ${error}`);
+    console.error(`Error: ${error}`);
     return [];
   }
 };

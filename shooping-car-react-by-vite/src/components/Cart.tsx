@@ -1,14 +1,31 @@
-import { App, Button, Empty, InputNumber, List } from 'antd';
-import { FC, Fragment } from 'react';
+import {
+  App,
+  Button,
+  ButtonProps,
+  ConfigProvider,
+  Empty,
+  InputNumber,
+  List,
+  notification,
+} from 'antd';
+import { TinyColor } from '@ctrl/tinycolor';
+import { FC, Fragment, RefAttributes } from 'react';
 import { ProductDTO } from '../shared/interface';
 import {
-  selectMaxInstallments,
-  selectSubtotal,
-  selectTotalProducts
+  maxInstallmentsSelector,
+  subtotalSelector,
+  totalProductsSelector,
 } from '../redux/selector';
-import { ProductInCart } from '../redux/slice/cartSlice'
-import { useAppSelector, useAppDispatch } from '../redux';
-import { clearCart } from '../redux/slice/cartSlice'
+import { ProductInCart, showCart } from '../redux/slice/cartSlice';
+import { $query, $exec } from '../redux';
+import {
+  clearCart,
+  changeProductAmount,
+  removeProduct,
+} from '../redux/slice/cartSlice';
+import { JSX } from 'react/jsx-runtime';
+import { DeleteOutlined } from '@ant-design/icons';
+import { BigMath } from '../shared/utils';
 
 interface ProductItemProps {
   product: ProductDTO;
@@ -19,40 +36,41 @@ interface ProductItemProps {
 const ProductItem: FC<ProductItemProps> = (props) => {
   const { amount, product, size } = props;
 
-  const changeProductAmount = useAppSelector((state) => state.changeProductAmount);
-
   return (
-    <div data-testid="cart-product" className="flex items-start overflow-hidden">
+    <div className="flex items-start py-4">
       <img
-        className="w-16 h-24 object-cover"
+        className="w-18 h-28 object-cover rounded-md"
         src={`static/products/${product.sku}-1-product.webp`}
-        alt=""
+        alt={product.title}
       />
-      <div className="ml-2 flex-auto overflow-hidden">
-        <h4 className="text-base overflow-hidden text-ellipsis whitespace-nowrap">
-          {product.title}
-        </h4>
-        <div className="text-gray-500 overflow-hidden text-ellipsis whitespace-nowrap">
-          {size} {product.style && <>| {product.style}</>}
+      <div className="ml-4 flex-1">
+        <h4 className="text-lg text-gray-800 font-bold mb-1 line-clamp-2" title='product.title'>{product.title}</h4>
+        <div className="text-sm text-gray-600  mb-1">
+          {size} 码 {product.style && <> | {product.style}</>}
         </div>
-        <div>
-          <span className="text-xs">{product.currencyFormat}</span>
-          <span className="text-sm font-bold">{product.price.toFixed(2)}</span>
+        <div className="flex items-baseline">
+          <span className="text-xl mr-1">
+            {product.currencyFormat}
+          </span>
+          <span className="text-lg font-bold">{product.price.toFixed(2)}</span>
         </div>
-        <div className="flex items-center">
-          数量：
+        <div className="mt-2 flex items-center">
+          <span className="mr-2">数量：</span>
           <InputNumber
-            className="w-14"
+            className="w-16"
             value={amount}
             size="small"
-            step={1}
             min={1}
             onChange={(value) => {
-              if (value == null) {
-                return;
+              if (value !== null) {
+                $exec(
+                  changeProductAmount({
+                    sku: product.sku.toString(),
+                    size,
+                    amount: value,
+                  })
+                );
               }
-
-              changeProductAmount(product.sku.toString(), size, value);
             }}
           />
         </div>
@@ -68,14 +86,12 @@ interface ProductListProps {
 const ProductList: FC<ProductListProps> = (props) => {
   const data = Object.entries(props.value);
 
-  const removeProduct = useAppSelector((state) => state.removeProdcut);
-
   return data.length === 0 ? (
     <div className="py-8">
       <Empty description="请添加商品到购物车" />
     </div>
   ) : (
-    <List>
+    <List className="bg-white ">
       {data.map(([sku, item]) => (
         <Fragment key={sku}>
           {Object.entries(item).map(([size, item]) => (
@@ -84,12 +100,13 @@ const ProductList: FC<ProductListProps> = (props) => {
               extra={
                 <Button
                   type="text"
+                  className="py-6 mt-auto text-2xl mb-2"
                   danger
                   onClick={() => {
-                    removeProduct(sku, size);
+                    $exec(removeProduct({ sku, size }));
                   }}
                 >
-                  删除
+                  <DeleteOutlined />
                 </Button>
               }
             >
@@ -108,67 +125,132 @@ const ProductList: FC<ProductListProps> = (props) => {
 
 interface SubtotalProps {
   value: number;
-  installments?: number;
+  installments: number;
+  installmentsAmount?: number;
 }
 
 const Subtotal: FC<SubtotalProps> = (props) => {
-  let installments: string | undefined;
+  if (!props.value) {
+    return null;
+  }
+
+  let installmentsAmount: string | undefined;
 
   if (props.installments) {
-    installments = (props.value / props.installments).toFixed(2);
+    installmentsAmount = BigMath.divide(props.value, props.installments);
   }
 
   return (
-    <div className="flex items-center mb-4">
-      <div>小计</div>
-      <div className="flex-auto text-right">
-        <div className="text-lg font-bold">$ {props.value.toFixed(2)}</div>
-        {installments && (
-          <div className="text-s">
-            或最多 <span className="text-base font-bold">$ {installments}</span>
-            /月
-          </div>
-        )}
+    <div className="flex items-center mb-4 flex-wrap">
+      <div className="flex-1 text-lg font-semibold">小计：</div>
+      <div className="flex-1 text-right text-lg font-bold ">
+        ${props.value.toFixed(2)}
       </div>
+      {installmentsAmount && (
+        <div className="text-right ml-2 text-sm w-full">
+          最多可分{' '}
+          <span className="font-bold text-orange-500">
+            {props.installments}
+          </span>{' '}
+          期{' '}
+          <span className="font-bold text-green-500">
+            ${installmentsAmount}
+          </span>{' '}
+          /月
+        </div>
+      )}
     </div>
   );
 };
 
+export const SummaryButtom = (
+  prpos: JSX.IntrinsicAttributes &
+    ButtonProps &
+    RefAttributes<HTMLButtonElement | HTMLAnchorElement>
+) => {
+  const colors1 = ['#6253E1', '#04BEFE'];
+  const colors2 = ['#fc6076', '#ff9a44', '#ef9d43', '#e75516'];
+  const colors3 = ['#40e495', '#30dd8a', '#2bb673'];
+  const getHoverColors = (colors: string[]) =>
+    colors.map((color) => new TinyColor(color).lighten(5).toString());
+  const getActiveColors = (colors: string[]) =>
+    colors.map((color) => new TinyColor(color).darken(5).toString());
+
+  return (
+    <ConfigProvider
+      theme={{
+        components: {
+          Button: {
+            colorPrimary: `linear-gradient(135deg, ${colors1.join(', ')})`,
+            colorPrimaryHover: `linear-gradient(135deg, ${getHoverColors(
+              colors1
+            ).join(', ')})`,
+            colorPrimaryActive: `linear-gradient(135deg, ${getActiveColors(
+              colors1
+            ).join(', ')})`,
+            lineWidth: 0,
+          },
+        },
+      }}
+    >
+      <Button type="primary" size="large" {...prpos}></Button>
+    </ConfigProvider>
+  );
+};
+
 export const Cart: FC = () => {
-  const dispatch = useAppDispatch()
-  const products = useAppSelector((state) => state.cart.products);
-  const clear = () => dispatch(clearCart)
-  const totalAmount = selectTotalProducts();
-  const subtotal = selectSubtotal();
-  const installments = selectMaxInstallments();
-  const { modal, message } = App.useApp();
+  const products = $query('cart.products');
+  const clear = () => $exec(clearCart());
+  const totalAmount = $query(totalProductsSelector);
+  const subtotal = $query(subtotalSelector);
+  const installments = $query(maxInstallmentsSelector);
+  const { modal } = App.useApp();
 
   const onCheckout = () => {
     if (!Object.keys(products).length) {
-      message.info('购物车是空的，请添加你心仪的商品到购物车吧');
+      notification.warning({
+        message: '系统提示',
+        description: `购物车是空的，请添加你心仪的商品到购物车吧`,
+        placement: 'top',
+        duration: 1,
+        closeIcon: false,
+      });
       return;
     }
 
     modal.confirm({
       title: '结算',
-      content: `共 ${totalAmount} 件商品，总计 $${subtotal}，确定结算？`,
+      content: `当前共 ${totalAmount} 件商品，金额 $${subtotal}，确定支付？`,
       onOk() {
         clear();
-        message.success(`结算完成，共支付 $${subtotal}`);
+        notification.success({
+          message: '结算完成',
+          description: `共支付 $${subtotal}`,
+          placement: 'top',
+          closeIcon: false,
+        });
+        $exec(showCart(false));
       },
     });
   };
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-auto px-2 min-h-0 overflow-y-auto">
+      <div className="flex-1 px-2 min-h-0  overflow-y-auto scrollbar-none">
         <ProductList value={products} />
       </div>
-      <div className="flex-none flex flex-col p-2 bg-gray-200">
+      <div className="p-4 border-t border-solid border-gray-300">
         <Subtotal value={subtotal} installments={installments} />
-        <Button type="primary" ghost block onClick={onCheckout}>
-          结算
-        </Button>
+
+        {!subtotal ? (
+          <Button type="primary" className="mt-16" block size="large" disabled>
+            无法结算
+          </Button>
+        ) : (
+          <SummaryButtom block onClick={onCheckout}>
+            结算
+          </SummaryButtom>
+        )}
       </div>
     </div>
   );

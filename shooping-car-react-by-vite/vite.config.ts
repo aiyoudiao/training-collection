@@ -6,8 +6,7 @@ import react from '@vitejs/plugin-react-swc';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { terser } from '@rollup/plugin-terser';
-import { eslint } from '@rollup/plugin-eslint';
+import terser from '@rollup/plugin-terser';
 
 // 获取当前模块的目录路径
 const __filename = fileURLToPath(import.meta.url);
@@ -64,6 +63,20 @@ export default defineConfig(({ mode }) => {
       extensions: ['.js', '.jsx', '.ts', '.tsx'], // 解析这些扩展名
     },
 
+    css: {
+      preprocessorOptions: {
+        less: {
+          javascriptEnabled: true,
+          modifyVars: {
+            '@primary-color': '#1890ff',
+            '@body-background': '#ffffff',
+            '@text-color': '#333',
+            // 其他自定义主题变量
+          },
+        },
+      },
+    },
+
     build: {
       sourcemap: isProduction ? false : isDevelopment && 'inline', // source map配置
       outDir: 'dist',
@@ -94,7 +107,6 @@ export default defineConfig(({ mode }) => {
           },
         },
         plugins: [
-          eslint(),
           terser({
             compress: {
               drop_console: true, // 这会删除 console.* 函数的调用

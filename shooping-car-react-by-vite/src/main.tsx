@@ -7,9 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux';
 
 import 'ress';
-import './main.css';
-console.log("store", store);
-console.log("persistor", persistor);
+import './main.less';
 
 import App from './pages/App';
 
@@ -22,7 +20,7 @@ root.render(
       <PersistGate persistor={persistor}>
         <ConfigProvider locale={zhCN}>
           <AntdApp>
-              <App />
+            <App />
           </AntdApp>
         </ConfigProvider>
       </PersistGate>
