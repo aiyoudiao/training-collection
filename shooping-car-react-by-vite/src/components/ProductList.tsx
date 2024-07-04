@@ -1,8 +1,7 @@
-import { Button, Col, Empty, Row, Pagination } from 'antd';
+import { Button, Col, Empty, Row } from 'antd';
 import { FC } from 'react';
 import { useProduct } from '../shared/hooks/useProduct';
 import { Product, ProductLoading } from './Product';
-import type { PaginationProps } from 'antd';
 
 export const ProductList: FC = () => {
   const { data, isLoading, error, refetch } = useProduct();
@@ -41,9 +40,6 @@ export const ProductList: FC = () => {
     );
   }
 
-  const onChange = (page: number, pageSize: number) => {
-    console.log(page, pageSize);
-  };
 
   return (
     <>
@@ -54,13 +50,6 @@ export const ProductList: FC = () => {
             <Product data={item} />
           </Col>
         ))}
-        <Pagination
-          total={data?.length || 0}
-          showSizeChanger
-          showQuickJumper
-          hideOnSinglePage
-          onChange={onChange}
-        />
       </Row>
     </>
   );

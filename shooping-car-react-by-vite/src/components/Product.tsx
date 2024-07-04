@@ -7,6 +7,7 @@ import {
   SegmentedProps,
   Skeleton,
   message,
+  Image,
 } from 'antd';
 import { FC, RefAttributes, useState } from 'react';
 
@@ -28,16 +29,11 @@ const ProductImage: FC<ProductImageProps> = ({ sku }) => {
   const image2 = `./static/products/${sku}-2-product.webp`;
 
   return (
-    <div
-      className="relative h-64 rounded-t-lg"
-      style={{ backgroundImage: `url(${image1})` }}
-      onMouseEnter={(e) =>
-        (e.currentTarget.style.backgroundImage = `url(${image2})`)
-      }
-      onMouseLeave={(e) =>
-        (e.currentTarget.style.backgroundImage = `url(${image1})`)
-      }
-    ></div>
+    <div className="!w-full !h-full max-h-60 rounded-t-lg overflow-hidden">
+      <Image.PreviewGroup items={[image1, image2]}>
+        <Image src={image1} />
+      </Image.PreviewGroup>
+    </div>
   );
 };
 
@@ -48,7 +44,7 @@ export const ProductLoading = () => {
       cover={
         <Skeleton.Image
           active
-          className="!w-full min-h-64 !h-full rounded-t-lg"
+          className="!w-full min-h-72 rounded-t-lg"
         />
       }
     >
@@ -93,7 +89,7 @@ export const Product: FC<ProductProps> = (props) => {
 
   return (
     <Card
-      className="relative"
+      className="relative transition-all transform hover:scale-105 cursor-pointer"
       cover={
         data.isFreeShipping ? (
           <Badge.Ribbon

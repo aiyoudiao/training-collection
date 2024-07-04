@@ -50,7 +50,6 @@ export const getProducts = async (
 
     const data = await response.json();
     let products: ProductDTO[] = data.data.products || [];
-
     // 过滤产品数据
     if (query?.sizes?.length) {
       products = products.filter((product) =>
