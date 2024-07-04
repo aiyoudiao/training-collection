@@ -31,10 +31,11 @@ interface ProductItemProps {
   product: ProductDTO;
   amount: number;
   size: string;
+  onDelete: () => void;
 }
 
 const ProductItem: FC<ProductItemProps> = (props) => {
-  const { amount, product, size } = props;
+  const { amount, product, size,  onDelete } = props;
 
   return (
     <div className="flex items-start py-4">
@@ -44,14 +45,17 @@ const ProductItem: FC<ProductItemProps> = (props) => {
         alt={product.title}
       />
       <div className="ml-4 flex-1">
-        <h4 className="text-lg text-gray-800 font-bold mb-1 line-clamp-2" title='product.title'>{product.title}</h4>
+        <h4
+          className="text-lg text-gray-800 font-bold mb-1 line-clamp-2"
+          title="product.title"
+        >
+          {product.title}
+        </h4>
         <div className="text-sm text-gray-600  mb-1">
           {size} 码 {product.style && <> | {product.style}</>}
         </div>
         <div className="flex items-baseline">
-          <span className="text-xl mr-1">
-            {product.currencyFormat}
-          </span>
+          <span className="text-xl mr-1">{product.currencyFormat}</span>
           <span className="text-lg font-bold">{product.price.toFixed(2)}</span>
         </div>
         <div className="mt-2 flex items-center">
@@ -73,6 +77,15 @@ const ProductItem: FC<ProductItemProps> = (props) => {
               }
             }}
           />
+
+          <Button
+            type="text"
+            className="py-6 mt-auto text-2xl ml-8"
+            danger
+            onClick={onDelete}
+          >
+            <DeleteOutlined />
+          </Button>
         </div>
       </div>
     </div>
@@ -95,25 +108,14 @@ const ProductList: FC<ProductListProps> = (props) => {
       {data.map(([sku, item]) => (
         <Fragment key={sku}>
           {Object.entries(item).map(([size, item]) => (
-            <List.Item
-              key={size}
-              extra={
-                <Button
-                  type="text"
-                  className="py-6 mt-auto text-2xl mb-2"
-                  danger
-                  onClick={() => {
-                    $exec(removeProduct({ sku, size }));
-                  }}
-                >
-                  <DeleteOutlined />
-                </Button>
-              }
-            >
+            <List.Item key={size}>
               <ProductItem
                 product={item.product}
                 amount={item.amount}
                 size={item.size}
+                onDelete={() => {
+                  $exec(removeProduct({ sku, size }));
+                }}
               />
             </List.Item>
           ))}

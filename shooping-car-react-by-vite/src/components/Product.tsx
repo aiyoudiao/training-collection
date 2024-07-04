@@ -125,7 +125,7 @@ export const Product: FC<ProductProps> = (props) => {
               })}
               value={currentSize}
               onChange={(value) => {
-                setSize(value);
+                setSize(value as string);
               }}
             />
           </div>
@@ -165,7 +165,6 @@ export const Product: FC<ProductProps> = (props) => {
             $exec(addProduct({ product: data, size: currentSize }));
             message.success({
               content: `客官，您已成功将 ${data.title} - [${currentSize}] 添加到购物车中。`,
-              maxCount: 2,
               duration: 1,
             });
           }}
