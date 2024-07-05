@@ -26,50 +26,50 @@ export default defineConfig(({ mode }) => {
       // windiCSS(), // tailwind css 插件
       // legacy({ targets: ["defaults", "not IE 11"] }), // 兼容老版本浏览器
       viteCompression({ algorithm: "gzip" }) as PluginOption, // 启用gzip压缩
-      VitePWA({
-        // PWA插件
-        manifest: {
-          name: "Github 热门对战",
-          short_name: "App",
-          description: "群贤毕至，巅峰对决，谁与争锋？",
-          theme_color: "#ffffff",
-          icons: [
-            {
-              src: "./public/vite.svg",
-              sizes: "192x192",
-              type: "image/svg",
-            },
-          ],
-        },
-        // https://vite-pwa-org.netlify.app/workbox/generate-sw.html
-        // https://developer.chrome.com/docs/workbox/using-plugins?hl=zh-cn
-        // workbox: {
-        //   // 配置 Workbox 插件，包括缓存策略等
-        //   cleanupOutdatedCaches: true, // 自动清理过期缓存
-        //   clientsClaim: true, // 立即接管页面
-        //   skipWaiting: true, // 立即激活新的 Service Worker
-        //   offlineGoogleAnalytics: false, // 离线时是否发送 Google Analytics 数据
-        //   runtimeCaching: [
-        //     {
-        //       urlPattern: new RegExp(".*"),
-        //       handler: "StaleWhileRevalidate",
-        //       options: {
-        //         cacheName: "github-api-cache",
-        //         expiration: {
-        //           maxEntries: 30,
-        //           maxAgeSeconds: 24 * 60 * 60, // 缓存存活时间为 1 天
-        //         },
-        //       },
-        //     },
-        //     // 添加更多的 runtimeCaching 配置项...
-        //   ],
-        // },
-      }) as PluginOption,
-      visualizer({
-        // 构建结果分析插件
-        filename: "./dist/report.html",
-        open: true, // 构建完成后自动打开分析报告
-      }) as PluginOption,
+      // VitePWA({
+      //   // PWA插件
+      //   manifest: {
+      //     name: "Github 热门对战",
+      //     short_name: "App",
+      //     description: "群贤毕至，巅峰对决，谁与争锋？",
+      //     theme_color: "#ffffff",
+      //     icons: [
+      //       {
+      //         src: "./public/vite.svg",
+      //         sizes: "192x192",
+      //         type: "image/svg",
+      //       },
+      //     ],
+      //   },
+      //   // https://vite-pwa-org.netlify.app/workbox/generate-sw.html
+      //   // https://developer.chrome.com/docs/workbox/using-plugins?hl=zh-cn
+      //   // workbox: {
+      //   //   // 配置 Workbox 插件，包括缓存策略等
+      //   //   cleanupOutdatedCaches: true, // 自动清理过期缓存
+      //   //   clientsClaim: true, // 立即接管页面
+      //   //   skipWaiting: true, // 立即激活新的 Service Worker
+      //   //   offlineGoogleAnalytics: false, // 离线时是否发送 Google Analytics 数据
+      //   //   runtimeCaching: [
+      //   //     {
+      //   //       urlPattern: new RegExp(".*"),
+      //   //       handler: "StaleWhileRevalidate",
+      //   //       options: {
+      //   //         cacheName: "github-api-cache",
+      //   //         expiration: {
+      //   //           maxEntries: 30,
+      //   //           maxAgeSeconds: 24 * 60 * 60, // 缓存存活时间为 1 天
+      //   //         },
+      //   //       },
+      //   //     },
+      //   //     // 添加更多的 runtimeCaching 配置项...
+      //   //   ],
+      //   // },
+      // }) as PluginOption,
+      // visualizer({
+      //   // 构建结果分析插件
+      //   filename: "./dist/report.html",
+      //   open: true, // 构建完成后自动打开分析报告
+      // }) as PluginOption,
     ],
     resolve: {
       alias: {

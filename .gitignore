@@ -131,5 +131,4 @@ dist
 demo/
 /tiny.config.ts
 /record.json
-/package.json
-/package-lock.json
+package.hidden.json
